@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/BITrusted/fuel-price-prediction/src/mlruns/0/fb96a43a664c47678a25b4563c225d37/artifacts
+end_time: 1722203164019
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: fb96a43a664c47678a25b4563c225d37
+run_name: selective-grub-776
+run_uuid: fb96a43a664c47678a25b4563c225d37
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1722202886986
+status: 3
+tags: []
+user_id: emenike

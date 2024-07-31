@@ -27,7 +27,7 @@ This repository has four folders: *src*, *notebooks*, *models*, and *data*.
 **1. Experiment Tracking and Model Registry**:
 - **[Mlflow](https://mlflow.org/)** is used to track experiments, including hyperparameters, metrics, and artifacts.
 - Trained models are registered in the MLflow Model Registry.
-- For this project, experiment tracking and a model registry has been implemented. Please refer to the `src` folder to find the folders `mlruns` and `models`, and the `mlflow.db` database.
+- For this project, experiment tracking and a model registry has been implemented. Please refer to the `src` folder to find the folders `mlruns` and the `mlflow.db` database. Within folder `src`, the experiment tracking is done in `train.py` and the model registeration in the MLflow server is done in `model_registry.py`.
 
 
 **2. Workflow Orchestration**:

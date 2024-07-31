@@ -35,9 +35,19 @@ This repository has four folders: *src*, *notebooks*, *models*, and *data*.
 **[Prefect](https://www.prefect.io/)** is used to create and manage the entire ML pipeline.
 The pipeline includes data ingestion, preprocessing, feature engineering, model training, and evaluation steps.
 
+First you need to use the `prefect cloud login` CLI command to log in to Prefect Cloud from your development environment (Virtual Studio Code was used for this project), and follow the instructions given in [Prefect Quickstart](https://docs.prefect.io/latest/getting-started/quickstart/).
+
+```bash
+prefect cloud login
+```
+
+Next,
+
 ```bash
 cd src
 ```
+
+and run:
 
 ```bash
 python workflow.py

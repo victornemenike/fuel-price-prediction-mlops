@@ -1,3 +1,5 @@
+import warnings
+warnings.filterwarnings("ignore", category= FutureWarning)
 import mlflow
 from mlflow.tracking import MlflowClient   
 from datetime import datetime 
@@ -41,3 +43,6 @@ def main():
     version = latest_versions[-1].version
     stage = "Staging"
     transition_model(model_name, version, stage)
+
+if __name__ == '__main__':
+    main()

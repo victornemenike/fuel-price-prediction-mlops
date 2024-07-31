@@ -1,5 +1,5 @@
-import warnings
 import mlflow
+from mlflow.tracking import MlflowClient
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -61,85 +61,87 @@ def train_model(train_loader,val_loader,
     optimizer = torch.optim.Adam(model.parameters(), lr= learning_rate)
 
     # Start MLflow run
-    mlflow.start_run()
+    with mlflow.start_run() as run:
 
-    mlflow.set_tag("developer", "Victor")
+        mlflow.set_tag("developer", "Victor")
 
-    # log data
-    mlflow.log_param("train_data_path", train_data_path)
-    mlflow.log_param("val_data_path", val_data_path)
+        # log data
+        mlflow.log_param("train_data_path", train_data_path)
+        mlflow.log_param("val_data_path", val_data_path)
 
-    # log parameters
-    mlflow.log_param("input_size", input_size)
-    mlflow.log_param("num_layers", num_layers)
-    mlflow.log_param("hidden_size", hidden_size)
-    mlflow.log_param("output_size", output_size)
-    mlflow.log_param("num_epochs", num_epochs)
-    mlflow.log_param("learning_rate", learning_rate)
+        # log parameters
+        mlflow.log_param("input_size", input_size)
+        mlflow.log_param("num_layers", num_layers)
+        mlflow.log_param("hidden_size", hidden_size)
+        mlflow.log_param("output_size", output_size)
+        mlflow.log_param("num_epochs", num_epochs)
+        mlflow.log_param("learning_rate", learning_rate)
 
-    train_hist =[]
-    val_hist =[]
-    # Training loop
-    for epoch in range(num_epochs):
-        total_train_loss = 0.0
+        train_hist =[]
+        val_hist =[]
+        # Training loop
+        for epoch in range(num_epochs):
+            total_train_loss = 0.0
 
-        # Training
-        model.train()
-        for batch_X, batch_y in train_loader:
-            batch_X, batch_y = batch_X.to(device), batch_y.to(device)
-            predictions = model(batch_X)
-            loss = loss_fn(predictions, batch_y)
+            # Training
+            model.train()
+            for batch_X, batch_y in train_loader:
+                batch_X, batch_y = batch_X.to(device), batch_y.to(device)
+                predictions = model(batch_X)
+                loss = loss_fn(predictions, batch_y)
 
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
+                optimizer.zero_grad()
+                loss.backward()
+                optimizer.step()
 
-            total_train_loss += loss.item()
-        
-        
-        # Calculate average training loss and accuracy
-        average_train_loss = total_train_loss / len(train_loader)
-        train_hist.append(average_train_loss)
+                total_train_loss += loss.item()
+            
+            
+            # Calculate average training loss and accuracy
+            average_train_loss = total_train_loss / len(train_loader)
+            train_hist.append(average_train_loss)
 
-        # log training loss
-        mlflow.log_metric("avg_train_loss", average_train_loss, step = epoch)
+            # log training loss
+            mlflow.log_metric("avg_train_loss", average_train_loss, step = epoch)
 
-        # Validation on test data
-        model.eval()
-        with torch.no_grad():
-            total_val_loss = 0.0
+            # Validation on test data
+            model.eval()
+            with torch.no_grad():
+                total_val_loss = 0.0
 
-            for batch_X_val, batch_y_val in val_loader:
-                batch_X_val, batch_y_val = batch_X_val.to(device), batch_y_val.to(device)
-                predictions_val = model(batch_X_val)
-                val_loss = loss_fn(predictions_val, batch_y_val)
+                for batch_X_val, batch_y_val in val_loader:
+                    batch_X_val, batch_y_val = batch_X_val.to(device), batch_y_val.to(device)
+                    predictions_val = model(batch_X_val)
+                    val_loss = loss_fn(predictions_val, batch_y_val)
 
-                total_val_loss += val_loss.item()
+                    total_val_loss += val_loss.item()
 
-            # Calculate average test loss and accuracy
-            average_val_loss = total_val_loss / len(val_loader)
-            val_hist.append(average_val_loss)
+                # Calculate average test loss and accuracy
+                average_val_loss = total_val_loss / len(val_loader)
+                val_hist.append(average_val_loss)
 
-        # log validation loss
-        mlflow.log_metric("avg_aval_loss", average_val_loss, step = epoch)
+            # log validation loss
+            mlflow.log_metric("avg_aval_loss", average_val_loss, step = epoch)
 
 
-        if (epoch+1)%10==0:
-            print(f'Epoch [{epoch+1}/{num_epochs}] - Training Loss: {average_train_loss:.4f}, Val Loss: {average_val_loss:.4f}')
+            if (epoch+1)%10==0:
+                print(f'Epoch [{epoch+1}/{num_epochs}] - Training Loss: {average_train_loss:.4f}, Val Loss: {average_val_loss:.4f}')
 
-    # Log model
-    mlflow.pytorch.log_model(model, "LSTM-model")
+        # Log model
+        mlflow.pytorch.log_model(model, "LSTM-model")
 
     # End MLflow run
     mlflow.end_run()
 
-    return train_hist, val_hist
+    return run, train_hist, val_hist
 
 
 if __name__ == '__main__':
 
-    mlflow.set_tracking_uri("sqlite:///mlflow.db")
-    mlflow.set_experiment("fuel-price-experiment")
+    MLFLOW_TRACKING_URI = "sqlite:///mlflow.db"
+    MLFLOW_EXPERIMENT_NAME = "fuel-price-experiment"
+    mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
+    mlflow.set_experiment(MLFLOW_EXPERIMENT_NAME)
 
     train_data_path = '../data/2024_train_data.parquet'
     train_data = pd.read_parquet(train_data_path)
@@ -154,9 +156,9 @@ if __name__ == '__main__':
     
     num_epochs = 50
     learning_rate = 1e-3
-    train_hist, val_hist = train_model(train_loader,val_loader, 
+    run, train_hist, val_hist = train_model(train_loader,val_loader, 
                                        num_epochs, learning_rate)
-    
+    print(f'Current MLflow run id: {run.info.run_id}')
     plot_learning_curve(num_epochs, train_hist, val_hist)
 
 

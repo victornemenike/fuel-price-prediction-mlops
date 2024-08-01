@@ -52,10 +52,11 @@ def create_torch_dataloader(X_train: torch.float32, y_train: torch.float32,
 @task
 def train_torch_model(train_loader,val_loader,
                       num_epochs: int, learning_rate:float):
-    run, train_hist, val_hist = train_model(train_loader,val_loader, 
+    model, run, train_hist, val_hist = train_model(train_loader,val_loader, 
                                        num_epochs, learning_rate)
-    print(f'Current MLflow run id: {run.info.run_id}')
-    plot_learning_curve(num_epochs, train_hist, val_hist)
+    
+    return model, run, train_hist, val_hist
+
 
 @flow(log_prints= True)  
 def ml_pipeline(root_directory: str = '../data/2024_prices/2024',
@@ -88,7 +89,12 @@ def ml_pipeline(root_directory: str = '../data/2024_prices/2024',
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     mlflow.set_experiment(MLFLOW_EXPERIMENT_NAME)
 
-    train_torch_model(train_loader, val_loader, num_epochs, learning_rate)
+    model, run, train_hist, val_hist = train_torch_model(train_loader, 
+                                                         val_loader, 
+                                                         num_epochs, 
+                                                         learning_rate)
+    print(f'Current MLflow run id: {run.info.run_id}')
+    plot_learning_curve(num_epochs, train_hist, val_hist)
 
 if __name__ == "__main__":
     ml_pipeline()

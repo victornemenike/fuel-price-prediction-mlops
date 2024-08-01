@@ -45,7 +45,9 @@ def create_dataloader(X_train, y_train, X_val, y_val, batch_size = 16):
     
 
 def train_model(train_loader,val_loader, 
-                num_epochs, learning_rate = 1e-3):
+                num_epochs, learning_rate,
+                train_data_path = None,
+                val_data_path = None):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     input_size = 1
@@ -157,7 +159,8 @@ if __name__ == '__main__':
     num_epochs = 50
     learning_rate = 1e-3
     run, train_hist, val_hist = train_model(train_loader,val_loader, 
-                                       num_epochs, learning_rate)
+                                       num_epochs, learning_rate,
+                                       train_data_path, val_data_path)
     print(f'Current MLflow run id: {run.info.run_id}')
     plot_learning_curve(num_epochs, train_hist, val_hist)
 

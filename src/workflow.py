@@ -64,7 +64,7 @@ def ml_pipeline(root_directory: str = '../data/2024_prices/2024',
                       val_startpoint: str = '2024-06-01', 
                       val_endpoint: str = '2024-07-13',
                       test_startpoint: str = '2024-07-14',
-                      col_name: str = 'e5', 
+                      fuel_type: str = 'e5', 
                       sampling_freq: str = '1h',
                       num_epochs:int = 50,
                       learning_rate:float = 1e-3,
@@ -72,12 +72,16 @@ def ml_pipeline(root_directory: str = '../data/2024_prices/2024',
                       MLFLOW_EXPERIMENT_NAME:str = "fuel-price-experiment"):
     
     df = collect_data(root_directory, station_uuid)
-    df_processed = preprocess_data(df, col_name, sampling_freq)
+
+    df_processed = preprocess_data(df, fuel_type, sampling_freq)
+
     df_train, df_val, df_test = split_data(df_processed, 
                                            train_endpoint,
                                            val_startpoint, val_endpoint,
                                            test_startpoint)
+    
     X_train, y_train, X_val, y_val = prepare_X_y_train_val(df_train, df_val)
+
     train_loader, val_loader = create_torch_dataloader(X_train, y_train,
                                                        X_val, y_val)
         

@@ -135,7 +135,7 @@ def train_model(train_loader,val_loader,
     # End MLflow run
     mlflow.end_run()
 
-    return run, train_hist, val_hist
+    return model, run, train_hist, val_hist
 
 
 if __name__ == '__main__':
@@ -158,7 +158,7 @@ if __name__ == '__main__':
     
     num_epochs = 50
     learning_rate = 1e-3
-    run, train_hist, val_hist = train_model(train_loader,val_loader, 
+    model, run, train_hist, val_hist = train_model(train_loader,val_loader, 
                                        num_epochs, learning_rate,
                                        train_data_path, val_data_path)
     print(f'Current MLflow run id: {run.info.run_id}')

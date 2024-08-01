@@ -53,6 +53,10 @@ and run:
 python workflow.py
 ```
 
+![Alt text](images/prefect_run.png)
+
+![Alt text](images/prefect_workflow.png)
+
 **3. Model Deployment**:
 
 

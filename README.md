@@ -52,10 +52,47 @@ and run:
 ```bash
 python workflow.py
 ```
-
 ![Alt text](images/prefect_run.png)
 
 ![Alt text](images/prefect_workflow.png)
+
+### Prefect Workflow Deployment
+
+To deploy the Prefect workflow, we first build the "Deployment" by providing the file and flow function names. A tag "dev" is also added to the Deployment. 
+
+First, go into the `src` folder:
+
+```bash
+cd src
+```
+
+and run:
+
+
+```bash
+prefect deployment build workflow.py:ml_pipeline -n 'ml_workflow_fuel_price_prediction' -a --tag dev
+```
+![Alt text](images/prefect_deployment_successfully_created.png)
+
+Next, we go to a new terminal (cd into folder `src) and start a Prefect agent which is responsible for monitoring work pool from the 'default' work queue like so:
+
+```bash
+prefect agent start -q 'default'
+```
+![Alt text](images/prefect_agent.png)
+
+Next, we go into another new terminal and run the deployment:
+
+```bash
+cd src
+```
+
+```bash
+prefect deployment run 'ml-pipeline/ml_workflow_fuel_price_prediction'
+```
+
+![Alt text](images/prefect_flow_run_for_deployment.png)
+
 
 **3. Model Deployment**:
 

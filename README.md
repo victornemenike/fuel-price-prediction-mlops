@@ -41,16 +41,10 @@ First you need to use the `prefect cloud login` CLI command to log in to Prefect
 prefect cloud login
 ```
 
-Next,
-
-```bash
-cd src
-```
-
 and run:
 
 ```bash
-python workflow.py
+python src/workflow.py
 ```
 ![Alt text](images/prefect_run.png)
 
@@ -58,23 +52,18 @@ python workflow.py
 
 **Prefect Workflow Deployment**
 
-To deploy the Prefect workflow, we first build the "Deployment" by providing the file and flow function names. A tag "dev" is also added to the Deployment. 
+To deploy the Prefect workflow, **please, run all the following commands in project root directory**: `fuel-price-prediction-mlops`.
 
-First, go into the `src` folder:
+First, we build the "Deployment" by providing the file and flow function names. A tag "dev" is also added to the Deployment. 
 
-```bash
-cd src
-```
-
-and run:
-
+Now, we run run:
 
 ```bash
-prefect deployment build workflow.py:ml_pipeline -n 'ml_workflow_fuel_price_prediction' -a --tag dev
+prefect deployment build src/workflow.py:ml_pipeline -n 'ml_pipeline_fuel_price' -a --tag dev
 ```
 ![Alt text](images/prefect_deployment_successfully_created.png)
 
-Next, we go to a new terminal (cd into folder `src) and start a Prefect agent which is responsible for monitoring work pool from the 'default' work queue like so:
+Next, we go to a new terminal and start a Prefect agent which is responsible for monitoring work pool from the 'default' work queue like so:
 
 ```bash
 prefect agent start -q 'default'
@@ -84,11 +73,7 @@ prefect agent start -q 'default'
 Next, we go into another new terminal and run the deployment:
 
 ```bash
-cd src
-```
-
-```bash
-prefect deployment run 'ml-pipeline/ml_workflow_fuel_price_prediction'
+prefect deployment run 'ml-pipeline/ml_pipeline_fuel_price'
 ```
 
 ![Alt text](images/prefect_flow_run_for_deployment.png)

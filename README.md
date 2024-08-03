@@ -56,7 +56,7 @@ python workflow.py
 
 ![Alt text](images/prefect_workflow.png)
 
-### Prefect Workflow Deployment
+**Prefect Workflow Deployment**
 
 To deploy the Prefect workflow, we first build the "Deployment" by providing the file and flow function names. A tag "dev" is also added to the Deployment. 
 

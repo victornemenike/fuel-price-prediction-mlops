@@ -59,7 +59,7 @@ def train_torch_model(train_loader,val_loader,
 
 
 @flow(log_prints= True)  
-def ml_pipeline(root_directory: str = '../data/2024_prices/2024',
+def ml_pipeline(root_directory: str = 'C:/BITrusted/fuel-price-prediction-mlops/data/2024_prices',
                       station_uuid: str = '28d2efc8-a5e6-47d6-9d37-230fbcefcf70',
                       train_endpoint: str = '2024-05-31',
                       val_startpoint: str = '2024-06-01', 

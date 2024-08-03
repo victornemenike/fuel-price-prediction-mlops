@@ -1,0 +1,104 @@
+###
+### A complete description of a Prefect Deployment for flow 'ml-pipeline'
+###
+name: ml_pipeline_fuel_price
+description: null
+version: 7ba2985ff8371594d6e4d66bbcde72e0
+# The work queue that will handle this deployment's runs
+work_queue_name: default
+work_pool_name: null
+tags:
+- dev
+parameters: {}
+schedule: null
+schedules: []
+is_schedule_active: null
+infra_overrides: {}
+infrastructure:
+  type: process
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  stream_output: true
+  working_dir: null
+  block_type_slug: process
+  _block_type_slug: process
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: ml-pipeline
+manifest_path: null
+storage: null
+path: C:\BITrusted\fuel-price-prediction-mlops
+entrypoint: src\workflow.py:ml_pipeline
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties:
+    root_directory:
+      default: C:/BITrusted/fuel-price-prediction-mlops/data/2024_prices
+      position: 0
+      title: root_directory
+      type: string
+    station_uuid:
+      default: 28d2efc8-a5e6-47d6-9d37-230fbcefcf70
+      position: 1
+      title: station_uuid
+      type: string
+    train_endpoint:
+      default: '2024-05-31'
+      position: 2
+      title: train_endpoint
+      type: string
+    val_startpoint:
+      default: '2024-06-01'
+      position: 3
+      title: val_startpoint
+      type: string
+    val_endpoint:
+      default: '2024-07-13'
+      position: 4
+      title: val_endpoint
+      type: string
+    test_startpoint:
+      default: '2024-07-14'
+      position: 5
+      title: test_startpoint
+      type: string
+    fuel_type:
+      default: e5
+      position: 6
+      title: fuel_type
+      type: string
+    sampling_freq:
+      default: 1h
+      position: 7
+      title: sampling_freq
+      type: string
+    num_epochs:
+      default: 50
+      position: 8
+      title: num_epochs
+      type: integer
+    learning_rate:
+      default: 0.001
+      position: 9
+      title: learning_rate
+      type: number
+    MLFLOW_TRACKING_URI:
+      default: sqlite:///mlflow.db
+      position: 10
+      title: MLFLOW_TRACKING_URI
+      type: string
+    MLFLOW_EXPERIMENT_NAME:
+      default: fuel-price-experiment
+      position: 11
+      title: MLFLOW_EXPERIMENT_NAME
+      type: string
+  required: null
+  definitions: null
+timestamp: '2024-08-03T22:25:45.533312+00:00'
+triggers: []
+enforce_parameter_schema: null

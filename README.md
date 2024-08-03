@@ -78,6 +78,10 @@ prefect deployment run 'ml-pipeline/ml_pipeline_fuel_price'
 
 ![Alt text](images/prefect_flow_run_for_deployment.png)
 
+Finally, you can view your deployment in the Prefect Cloud UI by logging in.
+
+![Alt text](images/prefect_deployment_in_cloud.png)
+
 
 **3. Model Deployment**:
 

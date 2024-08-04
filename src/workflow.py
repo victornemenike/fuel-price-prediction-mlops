@@ -3,11 +3,17 @@ from data_collection import load_data
 from data_processing import convert_to_timeseries
 from data_processing import resample_timeseries
 from data_processing import prepare_X_y
-from train import create_dataloader, train_model
+from train import create_dataloader
+from train import train_model
+from train import save_model, register_model
 from plotting import plot_learning_curve
+from model_registry import register_model
+from model_registry import transition_model
 import pandas as pd
 import torch
 import mlflow
+from mlflow.tracking import MlflowClient
+import pickle
 
 @task
 def collect_data(root_directory: str, station_uuid: str):
@@ -57,6 +63,26 @@ def train_torch_model(train_loader,val_loader,
     
     return model, run, train_hist, val_hist
 
+@task
+def save_model_locally(model, model_dir:str,
+                       model_format:str):
+    save_model(model, model_dir, model_format)
+
+
+
+@task
+def mlflow_registry(client, run, model_name:str):
+    
+    register_model(run.info.run_id, model_name)
+    print('Model registered in MLflow')
+      
+    latest_versions = client.get_latest_versions(name = model_name)
+    version = latest_versions[-1].version
+    stage = "Production"
+    transition_model(client, model_name, version, stage)
+
+    print(f'The model version {version} was transitioned to {stage}')
+
 
 @flow(log_prints= True)  
 def ml_pipeline(root_directory: str = 'C:/BITrusted/fuel-price-prediction-mlops/data/2024_prices',
@@ -70,7 +96,10 @@ def ml_pipeline(root_directory: str = 'C:/BITrusted/fuel-price-prediction-mlops/
                       num_epochs:int = 50,
                       learning_rate:float = 1e-3,
                       MLFLOW_TRACKING_URI:str = "sqlite:///mlflow.db",
-                      MLFLOW_EXPERIMENT_NAME:str = "fuel-price-experiment"):
+                      MLFLOW_EXPERIMENT_NAME:str = "fuel-price-experiment",
+                      model_dir:str = "models",
+                      model_format:str = "pickle",
+                      model_name:str = "fuel-price-predictor"):
     
     df = collect_data(root_directory, station_uuid)
 
@@ -88,12 +117,20 @@ def ml_pipeline(root_directory: str = 'C:/BITrusted/fuel-price-prediction-mlops/
         
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     mlflow.set_experiment(MLFLOW_EXPERIMENT_NAME)
+    client = MlflowClient(tracking_uri = MLFLOW_TRACKING_URI)
 
     model, run, train_hist, val_hist = train_torch_model(train_loader, 
                                                          val_loader, 
                                                          num_epochs, 
                                                          learning_rate)
+    
+
+    save_model_locally(model, model_dir, model_format)
+
     print(f'Current MLflow run id: {run.info.run_id}')
+    mlflow_registry(client, run,  model_name)
+
+    
     plot_learning_curve(num_epochs, train_hist, val_hist)
 
 if __name__ == "__main__":

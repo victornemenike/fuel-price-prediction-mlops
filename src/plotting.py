@@ -7,7 +7,7 @@ def plot_forecast(data, val_data, prediction_horizon, future_timestamps,
                   forecasted_values, combined_index, 
                   sequence_to_plot):
     #set the size of the plot 
-    _, ax = plt.subplots(figsize = (20,5))
+    _, ax = plt.subplots(figsize = (12,4))
 
 
     #Test data
@@ -46,7 +46,7 @@ def predict_actual_dist(df, future_timestamps, forecasted_cases):
 
 
 def plot_learning_curve(num_epochs, train_hist, val_hist):
-    fig, ax = plt.subplots(figsize= (15,4))
+    fig, ax = plt.subplots(figsize= (12,4))
     x = np.linspace(1,num_epochs,num_epochs)
     ax.plot(x, train_hist,scalex=True, label="Training loss")
     ax.plot(x, val_hist, label="Validation loss")

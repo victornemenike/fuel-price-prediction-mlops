@@ -134,7 +134,7 @@ def train_model(train_loader,val_loader,
                 print(f'Epoch [{epoch+1}/{num_epochs}] - Training Loss: {average_train_loss:.4f}, Val Loss: {average_val_loss:.4f}')
 
         # Log model
-        mlflow.pytorch.log_model(model, "LSTM-model")
+        mlflow.pytorch.log_model(model, artifact_path= "LSTM-model")
 
     # End MLflow run
     mlflow.end_run()

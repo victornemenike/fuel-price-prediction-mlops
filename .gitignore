@@ -1,4 +1,7 @@
 data/2024_prices/
 data/2024_stations/
 notebooks/__pycache__/
+notebooks/mlruns/
+notebooks/mlflow.db
 src/__pycache__/
+workflow/

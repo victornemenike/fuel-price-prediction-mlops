@@ -7,7 +7,11 @@ import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 from data_processing import *
 from plotting import plot_learning_curve
-
+import pickle
+import joblib
+from datetime import datetime
+from model_registry import register_model
+from model_registry import transition_model
 
 
 class LSTMModel(nn.Module):
@@ -123,7 +127,7 @@ def train_model(train_loader,val_loader,
                 val_hist.append(average_val_loss)
 
             # log validation loss
-            mlflow.log_metric("avg_aval_loss", average_val_loss, step = epoch)
+            mlflow.log_metric("avg_val_loss", average_val_loss, step = epoch)
 
 
             if (epoch+1)%10==0:
@@ -138,12 +142,42 @@ def train_model(train_loader,val_loader,
     return model, run, train_hist, val_hist
 
 
+def save_model(model, model_dir:str, model_format:str = 'pickle'):
+    os.makedirs(model_dir, exist_ok = True)
+    model_path = os.path.join(model_dir, f"fuel_price_lstm.{model_format}")
+    
+    if  model_format == 'pickle':   
+        with open(model_path, 'wb') as f_out:
+            pickle.dump((model), f_out)
+
+    if model_format == 'joblib':
+        joblib.dump(model, model_path)
+
+    print(f'Model saved locally at: {model_path}')        
+
+
+def mlflow_registry(client, run, model_name:str):
+    
+    register_model(run.info.run_id, model_name)
+    print('Model registered in MLflow')
+      
+    latest_versions = client.get_latest_versions(name = model_name)
+    version = latest_versions[-1].version
+    stage = "Production"
+    transition_model(client, model_name, version, stage)
+
+    print(f'The model version {version} was transitioned to {stage}')
+
+    
+
+
 if __name__ == '__main__':
 
     MLFLOW_TRACKING_URI = "sqlite:///mlflow.db"
     MLFLOW_EXPERIMENT_NAME = "fuel-price-experiment"
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     mlflow.set_experiment(MLFLOW_EXPERIMENT_NAME)
+    client = MlflowClient(tracking_uri = MLFLOW_TRACKING_URI)
 
     train_data_path = '../data/2024_train_data.parquet'
     train_data = pd.read_parquet(train_data_path)
@@ -162,6 +196,14 @@ if __name__ == '__main__':
                                        num_epochs, learning_rate,
                                        train_data_path, val_data_path)
     print(f'Current MLflow run id: {run.info.run_id}')
+
+    model_dir = "models"
+    model_format = "pickle"
+    save_model(model, model_dir, model_format)
+
+    model_name = "fuel-price-predictor"
+    mlflow_registry(client, run, model_name)
+
     plot_learning_curve(num_epochs, train_hist, val_hist)
 
 

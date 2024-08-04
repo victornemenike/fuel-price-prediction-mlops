@@ -37,6 +37,27 @@ def plot_forecast(data, val_data, prediction_horizon, future_timestamps,
     plt.grid(True)
     plt.show()
 
+
+def plot_forecast_web_service(recent_data, prediction_horizon, 
+                  forecasted_values, combined_index):
+
+    _, ax = plt.subplots(figsize = (12,4))
+
+    # plot recent data
+    ax.plot(recent_data.index, recent_data, label = "historical data", color = "b") 
+
+    # plot forecasted values
+    forecasted_cases = np.expand_dims(forecasted_values, axis=0).flatten() 
+    ax.plot(combined_index[-prediction_horizon:], forecasted_cases, label='forecasted', color='red') 
+
+    plt.xlabel('Time')
+    plt.ylabel('Price (€)')
+    plt.legend()
+    plt.title('Petrol Price Forecasting')
+    plt.grid(True)
+    plt.show()
+
+
 def predict_actual_dist(df, future_timestamps, forecasted_cases):
     warnings.filterwarnings("ignore", category=UserWarning)
     sns.distplot(forecasted_cases, label = 'prediction')

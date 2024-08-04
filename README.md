@@ -84,6 +84,37 @@ Finally, you can view your deployment in the Prefect Cloud UI by logging in.
 
 
 **3. Model Deployment**:
+First, we move into the `web-service` folder:
+
+```bash
+cd web-service
+```
+
+Here, we use `pipenv` (see `requirements.txt` file) to create a virtual environment. Since `torch` was used to train the model, ensure you ascertain the version of `torch` and the version of `Python` that was used. 
+
+```bash
+pip freeze | grep torch
+```
+which is `torch==2.3.1`
+
+```bash
+$ python --version
+```
+
+which is `Python 3.11.7`
+
+Next, we set-up the virtual environment with `pipenv` and install the correct versions of `torch`, `flask` and `python` within that virtual environment.
+
+```bash
+pipenv install torch==2.3.1 flask --python=3.11
+```
+
+Next,
+
+```bash
+pipenv shell
+```
+
 
 
 

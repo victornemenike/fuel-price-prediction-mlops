@@ -142,6 +142,7 @@ waitress-serve --listen=*:9696 predict:app
 ```
 
 **Docker**
+
 The web service deployment code is containerized and could be deployed to the cloud. Here, we use python:3.11-slim in the Dockerfile (see [Docker Hub](https://hub.docker.com/_/python/)). The final Dockerfile can be found in `web-service\Dockerfile`.
 
 Given that the Dockerfile in located in the `web-service` folder and the model is stored in the `models` folder, **we run need to build the Docker container from the parent directory of the project** `fuel-price-prediction-mlops` by executing the following command in the terminal:

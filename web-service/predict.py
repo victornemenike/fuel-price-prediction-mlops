@@ -15,6 +15,18 @@ import pickle
 from flask import Flask, request, jsonify
 
 
+def convert_to_serializable(obj):
+    if isinstance(obj, np.float32):
+        return float(obj)
+    elif isinstance(obj, np.ndarray):
+        return obj.tolist()
+    elif isinstance(obj, dict):
+        return {k: convert_to_serializable(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [convert_to_serializable(v) for v in obj]
+    else:
+        return obj
+
 
 def forecast(model, recent_data, num_forecast_steps, mode = 'local'):
 
@@ -46,7 +58,13 @@ def forecast(model, recent_data, num_forecast_steps, mode = 'local'):
 
                 # Update the historical_data sequence by removing the oldest value and adding the predicted value
                 historical_data = np.roll(historical_data, shift=-1)
-                historical_data[-1] = predicted_value
+
+                if torch.is_tensor(predicted_value):
+                    predicted_value = predicted_value.cpu().numpy()
+                if torch.is_tensor(historical_data):
+                    historical_data = historical_data.cpu().numpy()
+
+                historical_data[-1] = predicted_value.item()
 
     if mode == 'mlflow':
         # Use the trained model to forecast future values
@@ -103,33 +121,27 @@ def plot_prediction(recent_data, num_forecast_steps,
 
 app = Flask('fuel-price-prediction')
 
+
 @app.route('/predict', methods = ['POST'] )
 def forecast_endpoint():
     data = request.get_json()
-
-    if not data:
-        return jsonify({'error': 'No data provided'}), 400
     
-    recent_data = data.get('recent_data')
-    num_forecast_steps = data.get('num_forecast_steps')
-    mode = data.get('mode')
+    recent_data = pd.DataFrame(data['recent_data'])
+    num_forecast_steps = data['num_forecast_steps']
+    mode = data['mode']
 
     pred = predict(recent_data, 
                     num_forecast_steps, 
                     mode)
     
     result = {
-        'status': 'success',
-        'data_received':{
-            'recent_data': recent_data,
-            'num_forecast_steps': num_forecast_steps,
-            'mode': mode
-        },
         'predicted_steps': pred[0],
         'forecasted_prices': pred[1]
     }
 
-    return jsonify(result)
+    serializable_result = convert_to_serializable(result)
+
+    return jsonify(serializable_result)
 
 if __name__ == "__main__":
     app.run(debug=True, host = '0.0.0.0', port = 9696)

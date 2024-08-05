@@ -88,7 +88,6 @@ def forecast(model, recent_data, num_forecast_steps, mode = 'local'):
 def predict(recent_data, num_forecast_steps, mode = 'local'):
 
     if mode == 'local':
-        # Load model locally
         with open('../models/fuel_price_lstm.pickle', 'rb') as f_in:
             loaded_model = pickle.load(f_in)
 

@@ -10,7 +10,7 @@ Due to geopolitical issues and recent rise in inflation, the fuel prices have in
 ## Dataset
 The dataset used for this project has been sourced from the [Tankerkoenig](https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data) Azure Repository.
 
-## Project details
+## Project Details
 This repository has four folders: *src*, *notebooks*, *models*, and *data*.
 - The `data` folder contains the dataset for the project and the code used to generate the data. Here only data for 2024 (01-01-2024 to 21-07-2024). The fuel price data for 2024 was downloaded from [Tankerkoenig](https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data), preprocessed by using the script `prepare_data.py` in `src` and saved as `2024_globus_gas_prices.parquet`. Please, note that due the large size of the original raw data for 2024, the dataset was not committed to GitHub (see the `.gitignore` file). Nevertheles, you can download the 2024 data from [Tankerkoenig](https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data).
 - The `notebooks` folder contains Jupyter notebooks used for exploratory data analysis (EDA).
@@ -24,13 +24,13 @@ This repository has four folders: *src*, *notebooks*, *models*, and *data*.
 
 ## Implementation Details
 
-**1. Experiment Tracking and Model Registry**:
+### **1. Experiment Tracking and Model Registry**:
 - **[MLflow](https://mlflow.org/)** is used to track experiments, including hyperparameters, metrics, and artifacts.
 - Trained models are registered in the MLflow Model Registry.
 - For this project, experiment tracking and a model registry has been implemented. Please refer to the `src` folder to find the folders `mlruns` and the `mlflow.db` database. Within folder `src`, the experiment tracking is done in `train.py` and the model registeration in the MLflow server is done in `model_registry.py`.
 
 
-**2. Workflow Orchestration**:
+### **2. Workflow Orchestration**:
 
 **[Prefect](https://www.prefect.io/)** is used to create and manage the entire ML pipeline.
 The pipeline includes data ingestion, preprocessing, feature engineering, model training, and evaluation steps.
@@ -83,7 +83,7 @@ Finally, you can view your deployment in the Prefect Cloud UI by logging in.
 ![Alt text](images/prefect_deployment_in_cloud.png)
 
 
-**3. Model Deployment**:
+### **3. Model Deployment**:
 First, we move into the `web-service` folder:
 
 ```bash
@@ -167,11 +167,13 @@ OR
 
 
 
-**4. Model Monitoring**:
+### **4. Model Monitoring**:
 
-**5. Reproducibility**:
+### **5. Reproducibility**:
 - Detailed instructions are below to explain how to set up the environment and run the code.
 - All dependencies and their versions are specified in `requirements.txt`.
+
+### **6. Best Practices**:
 
 
 ---

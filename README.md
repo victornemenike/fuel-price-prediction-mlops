@@ -16,7 +16,7 @@ This repository has four folders: *src*, *notebooks*, *models*, and *data*.
 - The `notebooks` folder contains Jupyter notebooks used for exploratory data analysis (EDA).
 - The `src` folder contains the source code for the project.
 
-## Additional files
+## Additional Files
 - **requirements.txt**
   - Lists all the Python dependencies required for the project.
 - **Dockerfile**
@@ -29,6 +29,23 @@ This repository has four folders: *src*, *notebooks*, *models*, and *data*.
 - Trained models are registered in the MLflow Model Registry.
 - For this project, experiment tracking and a model registry has been implemented. Please refer to the `src` folder to find the folders `mlruns` and the `mlflow.db` database. Within folder `src`, the experiment tracking is done in `train.py` and the model registeration in the MLflow server is done in `model_registry.py`.
 
+To run the MLflow server locally, simply go to the project root directory and type:
+
+```bash
+mlflow ui --backend-store-uri=sqlite:///mlflow.db
+```
+with is identical to: 
+
+```bash
+mlflow ui --backend-store-uri sqlite:///mlflow.db
+```
+
+
+```bash
+mlflow server --backend-store-uri=sqlite:///mlflow.db --default-artifact-root={model-location}
+```
+
+`model-location` could be an S3 bucket. For example, `s3://mlflow-models-victor`. It could also be locally, for example `LSTM-model`.
 
 ### **2. Workflow Orchestration**:
 
@@ -157,7 +174,13 @@ To run the Docker container, we run:
 docker run -it --rm -p 9696:9696 fuel-price-prediction-service:v1
 ```
 
-**Note**: the `ENTRYPOINT` can be defined with either `waitress-serve` OR `gunicorn`
+Next, open a new tab within the same terminal and run the following to test that the web service is indeed running in a Docker container:
+
+```bash
+python web-service/test_flask_app.py
+```
+
+**Note**: the `ENTRYPOINT` in the `Dockerfile` can be defined with either `waitress-serve` OR `gunicorn`
 
 `ENTRYPOINT [ "waitress-serve", "--listen=*:9696", "predict:app" ]`
 
@@ -174,6 +197,8 @@ OR
 - All dependencies and their versions are specified in `requirements.txt`.
 
 ### **6. Best Practices**:
+
+## Quick Start
 
 
 ---

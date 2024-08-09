@@ -5,7 +5,7 @@ RUN pip install pipenv
 
 WORKDIR /app
 
-COPY ["web-service/Pipfile", "web-service/Pipfile.lock", "./"]
+COPY ["web-service-mlflow/Pipfile", "web-service-mlflow/Pipfile.lock", "./"]
 
 RUN pipenv install --system --deploy
 

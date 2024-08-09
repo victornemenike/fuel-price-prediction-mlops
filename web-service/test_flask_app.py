@@ -5,7 +5,7 @@ data_path = '../data/2024_val_data.parquet'
 data = pd.read_parquet(data_path)
 recent_data = data[-100:]
 num_forecast_steps = 48
-mode = 'mlflow' 
+mode = 'local' 
 
 # Convert DataFrame to dictionary
 recent_data_dict = recent_data.to_dict(orient = 'records')

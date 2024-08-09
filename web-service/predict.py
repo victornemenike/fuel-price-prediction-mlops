@@ -14,6 +14,7 @@ from plotting import plot_forecast_web_service
 import pickle
 from flask import Flask, request, jsonify
 
+MLFLOW_RUN_ID = '337ff4b11daf4118a3c9a64263073c4b'
 
 def convert_to_serializable(obj):
     if isinstance(obj, np.float32):
@@ -91,6 +92,10 @@ def predict(recent_data, num_forecast_steps, mode = 'local'):
         model_docker_path = 'fuel_price_lstm.pickle' 
         with open(model_docker_path, 'rb') as f_in:
             loaded_model = pickle.load(f_in)
+
+    if mode == 'mlflow':
+        logged_model = f'runs:/{MLFLOW_RUN_ID}/model'
+        loaded_model = mlflow.pyfunc.load_model(logged_model)
 
     prediction_horizon, forecasted_values = forecast(loaded_model, 
                                                      recent_data,

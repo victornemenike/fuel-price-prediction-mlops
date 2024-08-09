@@ -14,7 +14,6 @@ from plotting import plot_forecast_web_service
 import pickle
 from flask import Flask, request, jsonify
 
-MLFLOW_RUN_ID = '337ff4b11daf4118a3c9a64263073c4b'
 
 def convert_to_serializable(obj):
     if isinstance(obj, np.float32):
@@ -29,7 +28,7 @@ def convert_to_serializable(obj):
         return obj
 
 
-def forecast(model, recent_data, num_forecast_steps, mode = 'local'):
+def forecast(model, recent_data, num_forecast_steps):
 
     X_val, _ = prepare_X_y('recent data', recent_data, sequence_length=24)
 
@@ -44,63 +43,45 @@ def forecast(model, recent_data, num_forecast_steps, mode = 'local'):
 
     prediction_horizon = num_forecast_steps + len(historical_data)  
 
-    if mode=='local':
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        with torch.no_grad():
-            for _ in range(prediction_horizon):
-                # Prepare the historical_data tensor
-                historical_data_tensor = torch.as_tensor(historical_data).view(1, -1, 1).float().to(device)
-                # Use the model to predict the next value
-                predicted_value = model(historical_data_tensor).cpu().numpy()[0, 0]
-                
-
-                # Append the predicted value to the forecasted_values list
-                forecasted_values.append(predicted_value[0])
-
-                # Update the historical_data sequence by removing the oldest value and adding the predicted value
-                historical_data = np.roll(historical_data, shift=-1)
-
-                if torch.is_tensor(predicted_value):
-                    predicted_value = predicted_value.cpu().numpy()
-                if torch.is_tensor(historical_data):
-                    historical_data = historical_data.cpu().numpy()
-
-                historical_data[-1] = predicted_value.item()
-
-    if mode == 'mlflow':
-        # Use the trained model to forecast future values
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    
+    with torch.no_grad():
         for _ in range(prediction_horizon):
-            
+            # Prepare the historical_data tensor
+            historical_data_tensor = torch.as_tensor(historical_data).view(1, -1, 1).float().to(device)
             # Use the model to predict the next value
-            predicted_value = model.predict(pd.DataFrame(historical_data))
+            predicted_value = model(historical_data_tensor).cpu().numpy()[0, 0]
             
+
             # Append the predicted value to the forecasted_values list
-            forecasted_values.append(predicted_value.values[0][0])
+            forecasted_values.append(predicted_value[0])
 
             # Update the historical_data sequence by removing the oldest value and adding the predicted value
             historical_data = np.roll(historical_data, shift=-1)
-            historical_data[-1] = predicted_value.values[0]
-      
+
+            if torch.is_tensor(predicted_value):
+                predicted_value = predicted_value.cpu().numpy()
+            if torch.is_tensor(historical_data):
+                historical_data = historical_data.cpu().numpy()
+
+            historical_data[-1] = predicted_value.item()
+
 
     return prediction_horizon, forecasted_values
 
 
 
-def predict(recent_data, num_forecast_steps, mode = 'local'):
+def predict(recent_data, num_forecast_steps):
 
-    if mode == 'local':
-        model_docker_path = 'fuel_price_lstm.pickle' 
-        with open(model_docker_path, 'rb') as f_in:
-            loaded_model = pickle.load(f_in)
+    model_docker_path = 'fuel_price_lstm.pickle' 
+    with open(model_docker_path, 'rb') as f_in:
+        loaded_model = pickle.load(f_in)
 
-    if mode == 'mlflow':
-        logged_model = f'runs:/{MLFLOW_RUN_ID}/model'
-        loaded_model = mlflow.pyfunc.load_model(logged_model)
 
     prediction_horizon, forecasted_values = forecast(loaded_model, 
                                                      recent_data,
-                                                     num_forecast_steps, 
-                                                     mode)
+                                                     num_forecast_steps,
+                                                     )
     return prediction_horizon, forecasted_values
     
 
@@ -133,11 +114,9 @@ def forecast_endpoint():
     
     recent_data = pd.DataFrame(data['recent_data'])
     num_forecast_steps = data['num_forecast_steps']
-    mode = data['mode']
 
     pred = predict(recent_data, 
-                    num_forecast_steps, 
-                    mode)
+                    num_forecast_steps)
     
     result = {
         'predicted_steps': pred[0],

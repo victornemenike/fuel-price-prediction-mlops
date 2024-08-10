@@ -191,14 +191,34 @@ OR
 
 
 ### **4. Model Monitoring**:
+ Navigate into the `monitoring` folder and run:
 
-### **5. Reproducibility**:
+ ```bash
+  docker-compose up --build
+  ```
+
+  Load MLflow in terminal like so:
+
+  ```bash
+  mlflow server --backend-store-uri sqlite:///mlflow.db 
+  ```
+
+  Then run the Jupyter notebook `model_monitoring.ipynb` and then run:
+
+  ```bash
+  evidently ui
+  ```
+
+  If running on localhost, visit: `http://localhost:8000` and not `http://0.0.0.0:8000`.
+
+### **5. Best Practices**:
+
+### **6. Reproducibility**:
 - Detailed instructions are below to explain how to set up the environment and run the code.
 - All dependencies and their versions are specified in `requirements.txt`.
 
-### **6. Best Practices**:
 
-## Quick Start
+
 
 
 ---

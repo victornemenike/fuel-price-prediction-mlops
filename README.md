@@ -229,7 +229,7 @@ OR
 - Detailed instructions on how to set up the environment and run the code are already explained in the sections 
 - All dependencies and their versions are specified in `requirements.txt`.
 
-#### **Quick Start**
+### **Quick Start**
 To get started with this project, do the following in the terminal:
 
 ```bash

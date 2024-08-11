@@ -1,0 +1,72 @@
+{
+  "id": "68ac47c7-360a-4b98-a1ba-937f45bcfa71",
+  "name": "Fuel Price Data Qualiyt Project",
+  "description": "Montoring to track the data quality for a fuel price forecasting model",
+  "dashboard": {
+    "name": "Fuel Price Data Qualiyt Project",
+    "panels": [
+      {
+        "type": "evidently.ui.dashboards.reports.DashboardPanelCounter",
+        "id": "7721af5d-deda-40e0-87b6-0732bc40c299",
+        "title": "Super 95 fuel price data dashboard",
+        "filter": {
+          "metadata_values": {},
+          "tag_values": [],
+          "include_test_suites": false
+        },
+        "size": 2,
+        "agg": "none",
+        "value": null,
+        "text": null
+      },
+      {
+        "type": "evidently.ui.dashboards.reports.DashboardPanelPlot",
+        "id": "52348050-9f4d-43d3-ae68-b7579665154e",
+        "title": "Inference Count",
+        "filter": {
+          "metadata_values": {},
+          "tag_values": [],
+          "include_test_suites": false
+        },
+        "size": 1,
+        "values": [
+          {
+            "field_path": "current.number_of_rows",
+            "metric_id": "DatasetSummaryMetric",
+            "metric_fingerprint": null,
+            "metric_args": {},
+            "legend": "count"
+          }
+        ],
+        "plot_type": "bar"
+      },
+      {
+        "type": "evidently.ui.dashboards.reports.DashboardPanelPlot",
+        "id": "2948c8ae-ce9e-4a7e-8b50-e1d6b20d6e7e",
+        "title": "Number of Missing Values",
+        "filter": {
+          "metadata_values": {},
+          "tag_values": [],
+          "include_test_suites": false
+        },
+        "size": 1,
+        "values": [
+          {
+            "field_path": "current.number_of_missing_values",
+            "metric_id": "DatasetSummaryMetric",
+            "metric_fingerprint": null,
+            "metric_args": {},
+            "legend": "count"
+          }
+        ],
+        "plot_type": "line"
+      }
+    ],
+    "tabs": [],
+    "tab_id_to_panel_ids": {}
+  },
+  "team_id": null,
+  "date_from": null,
+  "date_to": null,
+  "created_at": "2024-08-10T21:48:59.672113"
+}

@@ -203,13 +203,23 @@ OR
   mlflow server --backend-store-uri sqlite:///mlflow.db 
   ```
 
-  Then run the Jupyter notebook `model_monitoring.ipynb` and then run:
+  To view, the Evidently dashboard from the UI, run the Jupyter notebook `model_monitoring.ipynb` and then run the following via the terminal:
 
   ```bash
   evidently ui
   ```
 
   If running on localhost, visit: `http://localhost:8000` and not `http://0.0.0.0:8000`.
+
+  To monitor the model performance via Grafana, simply run the following via the terminal:
+
+  ```bash
+  python evidently_metrics_calculation.py 
+  ```
+
+  and then login to the Grafana Dashboard via the local host: `localhost:3000/`
+
+  ![Alt text](images/grafana_monitoring_dashboard.png)
 
 ### **5. Best Practices**:
 

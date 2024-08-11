@@ -224,6 +224,15 @@ OR
   To debug the model metrics with Evidently, run the notebook `debugging_fuel_price_data.ipynb`. _Note that here, the only column that drifts in the `timestamp` column. This makes sence, since we are dealing with time series data._
 
 ### **5. Best Practices**:
+[x] **Unit Tests**
+```bash
+cd tests
+```
+
+```bash
+ pytest unit_tests/
+```
+
 
 ### **6. Reproducibility**:
 - Detailed instructions on how to set up the environment and run the code are already explained in the sections 

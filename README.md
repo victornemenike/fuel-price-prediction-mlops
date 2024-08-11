@@ -219,7 +219,7 @@ OR
 
   ![Alt text](images/grafana_monitoring_dashboard.png)
 
-  **Debugging with test suites and reports**
+  **Generating debugging dashboard when threshold is violated**
 
   To debug the model metrics with Evidently, run the notebook `debugging_fuel_price_data.ipynb`. _Note that here, the only column that drifts in the `timestamps column`. This makes sence, since we are dealing with time series data._
 

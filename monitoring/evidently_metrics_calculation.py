@@ -50,7 +50,7 @@ logged_model = f'runs:/{run_id}/LSTM-model'
 loaded_model = mlflow.pyfunc.load_model(logged_model)
 
 raw_data = pd.read_parquet('../data/2024_test_data.parquet')
-begin = datetime.datetime(2024,8, 11, 0, 0)
+begin = datetime.datetime(2024,7, 14, 0, 0)
 begin_utc = begin.replace(tzinfo=pytz.UTC)
 
 column_mapping = ColumnMapping(

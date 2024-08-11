@@ -7,12 +7,11 @@ from plotting import plot_forecast
 
 
 
-def forecast(val_data, model):
+def forecast(model, data_name, data, num_forecast_steps):
 
-    X_val, _ = prepare_X_y('validation', val_data, sequence_length=24)
+    X_val, _ = prepare_X_y(data_name, data, sequence_length=24)
 
     # Define the number of future time steps to forecast
-    num_forecast_steps = 48 # next timesteps to forecast
     time_interval_min = 60 # @minute intervals
 
     # Convert to NumPy and remove singleton dimensions
@@ -41,13 +40,13 @@ def forecast(val_data, model):
  
           
     # Generate futute dates
-    last_timestamp = val_data.index[-1]
+    last_timestamp = data.index[-1]
 
     # Generate the next stipulated timepoints
     future_timestamps = generate_future_timestamps(last_timestamp, num_forecast_steps, time_interval_min)
 
     # Concatenate the original index with the future dates
-    combined_index = val_data.index.append(future_timestamps)
+    combined_index = data.index.append(future_timestamps)
 
     return prediction_horizon, future_timestamps, forecasted_values, combined_index, sequence_to_plot
 
@@ -63,15 +62,22 @@ if __name__ == '__main__':
 
     val_data_path = '../data/2024_val_data.parquet'
     val_data = pd.read_parquet(val_data_path)
+    
 
-    mlflow.set_tracking_uri("sqlite:///mlflow.db")
+    #mlflow.set_tracking_uri("sqlite:///mlflow.db")
+    mlflow.set_tracking_uri("http://127.0.0.1:5000")
     mlflow.set_experiment("fuel-price-experiment")
 
     # Load model as a PyFuncModel
-    logged_model = 'runs:/f83b41f1ac2b450893bbcdaac0e5d157/LSTM-model'
+    run_id = '337ff4b11daf4118a3c9a64263073c4b'
+    logged_model = f'runs:/{run_id}/LSTM-model'
     loaded_model = mlflow.pyfunc.load_model(logged_model)
-    prediction_horizon, future_timestamps, forecasted_values, combined_index, sequence_to_plot = forecast(val_data, 
-                                                                                                      loaded_model)
+    data_name = 'validation'
+    num_forecast_steps = 0
+    prediction_horizon, future_timestamps, forecasted_values, combined_index, sequence_to_plot = forecast(loaded_model,
+                                                                                                          data_name, val_data, num_forecast_steps)
+
+
 
     plot_forecast(data, val_data, 
                   prediction_horizon, future_timestamps, 

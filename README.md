@@ -226,8 +226,14 @@ OR
 ### **5. Best Practices**:
 
 ### **6. Reproducibility**:
-- Detailed instructions are below to explain how to set up the environment and run the code.
+- Detailed instructions on how to set up the environment and run the code are already explained in the sections 
 - All dependencies and their versions are specified in `requirements.txt`.
+- **Quick Start**
+To get started with this project, do the following in the terminal:
+
+```bash
+git clone https://github.com/victornemenike/fuel-price-prediction-mlops.git
+```
 
 
 

@@ -217,7 +217,7 @@ OR
 
   and then login to the Grafana Dashboard via the local host: `localhost:3000/`
 
-  ![Alt text](images/grafana_monitoring_dashboard.png)
+  ![Alt text](images/grafana_monitoring_dashboard_2.png)
 
 ### **5. Best Practices**:
 

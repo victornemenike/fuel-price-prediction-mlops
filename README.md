@@ -203,7 +203,7 @@ OR
   mlflow server --backend-store-uri sqlite:///mlflow.db 
   ```
 
-  To view, the Evidently dashboard from the UI, run the Jupyter notebook `model_monitoring.ipynb` and then run the following via the terminal:
+  To view the baseline model metrics via the Evidently UI, run the Jupyter notebook `baseline_model_monitoring.ipynb` and then run the following via the terminal:
 
   ```bash
   evidently ui

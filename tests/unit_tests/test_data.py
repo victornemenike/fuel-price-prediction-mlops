@@ -6,6 +6,7 @@ sys.path.append(os.path.abspath(os.path.join('..', 'src')))
 
 from data_processing import read_dataframe
 import pandas as pd
+from deepdiff import DeepDiff
 
 def test_read_dataframe():
     data_path = '../data/2024_test_data.parquet'
@@ -17,3 +18,8 @@ def test_read_dataframe():
     expected_df_list_dicts = expected_df.to_dict('records')
 
     assert actual_df_list_dicts == expected_df_list_dicts
+
+    diff = DeepDiff(actual_df_list_dicts, expected_df_list_dicts)
+    print(f'diff = {diff}')
+
+    assert 'type_changes' not in diff

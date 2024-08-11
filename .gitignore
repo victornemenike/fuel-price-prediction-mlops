@@ -6,4 +6,3 @@ notebooks/mlflow.db
 src/__pycache__/
 workflow/
 web-service-mlflow/
-images/prefect_run.png

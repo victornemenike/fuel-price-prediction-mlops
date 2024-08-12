@@ -5,9 +5,9 @@ RUN pip install pipenv
 
 WORKDIR /app
 
-COPY ["web-service/Pipfile", "web-service/Pipfile.lock", "./"]
+COPY ["requirements.txt", "./"]
 
-RUN pipenv install --system --deploy
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY ["src/data_collection.py", "src/data_processing.py", "./"]
 COPY ["src/utils.py", "src/plotting.py", "./"]

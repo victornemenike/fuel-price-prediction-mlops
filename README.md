@@ -99,66 +99,16 @@ Finally, you can view your deployment in the Prefect Cloud UI by logging in.
 
 
 ### **3. Model Deployment**:
-First, we move into the `web-service` folder:
-
-```bash
-cd web-service
-```
-
-Here, we use `pipenv` (see `requirements.txt` file) to create a virtual environment. Since `torch` was used to train the model, ensure you ascertain the version of `torch` and the version of `Python` that was used. 
-
-```bash
-pip freeze | grep torch
-```
-which is `torch==2.3.1`
-
-```bash
-$ python --version
-```
-
-which is `Python 3.11.7`
-
-Next, we set-up the virtual environment with `pipenv` and install the correct versions of `torch`, `flask` and `python` within that virtual environment.
-
-```bash
-pipenv install torch==2.3.1 flask --python=3.11
-```
-
-Next,
-
-```bash
-pipenv shell
-```
-
-Currently, we are running in dev mode. To run in production mode, there are different options.
-
-For Linux/Unix-like systems, run:
-
-```bash
-pipenv install gunicorn
-```
-
-Next, run:
-
-```bash
-gunicorn --bind=0.0.0.0:9696 predict:app
-```
-
-For Windows systems, run:
-
-```bash
-pipenv install waitress
-```
-
-Next, run:
-
-```bash
-waitress-serve --listen=*:9696 predict:app
-```
-
-**Docker**
 
 The web service deployment code is containerized and could be deployed to the cloud. Here, we use python:3.11-slim in the Dockerfile (see [Docker Hub](https://hub.docker.com/_/python/)). The final Dockerfile can be found in `web-service\Dockerfile`.
+
+**Note**: the `ENTRYPOINT` in the `Dockerfile` can be defined with either `waitress-serve` OR `gunicorn`
+
+`ENTRYPOINT [ "waitress-serve", "--listen=*:9696", "predict:app" ]`
+
+OR
+
+`ENTRYPOINT [ "gunicorn", "--bind=0.0.0.0:9696", "predict:app" ]`
 
 Given that the Dockerfile in located in the `web-service` folder and the model is stored in the `models` folder, **we run need to build the Docker container from the parent directory of the project** `fuel-price-prediction-mlops` by executing the following command in the terminal:
 
@@ -172,21 +122,17 @@ To run the Docker container, we run:
 docker run -it --rm -p 9696:9696 fuel-price-prediction-service:v1
 ```
 
-Next, open a new tab within the same terminal and run the following to test that the web service is indeed running in a Docker container:
+Next, open a new tab within the same terminal, cd to the `web-service` directory like so:
 
 ```bash
-python web-service/test_flask_app.py
+cd web-service
 ```
 
-**Note**: the `ENTRYPOINT` in the `Dockerfile` can be defined with either `waitress-serve` OR `gunicorn`
+ and run the following to test that the web service is indeed running in a Docker container:
 
-`ENTRYPOINT [ "waitress-serve", "--listen=*:9696", "predict:app" ]`
-
-OR
-
-`ENTRYPOINT [ "gunicorn", "--bind=0.0.0.0:9696", "predict:app" ]`
-
-
+```bash
+python test_flask_app.py
+```
 
 ### **4. Model Monitoring**:
  Navigate into the `monitoring` folder and run:

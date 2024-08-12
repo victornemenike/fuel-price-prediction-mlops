@@ -9,3 +9,5 @@ workflow/
 web-service-mlflow/
 /monitoring/dummy_metrics_calculation.py
 workspace/
+archive/
+.vscode/

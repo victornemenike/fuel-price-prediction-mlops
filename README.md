@@ -110,7 +110,7 @@ OR
 
 `ENTRYPOINT [ "gunicorn", "--bind=0.0.0.0:9696", "predict:app" ]`
 
-Given that the Dockerfile in located in the `web-service` folder and the model is stored in the `models` folder, **we run need to build the Docker container from the parent directory of the project** `fuel-price-prediction-mlops` by executing the following command in the terminal:
+Given that the Dockerfile in located in the `web-service` folder and the model is stored in the `models` folder, **we need to build the Docker container from the parent directory of the project** `fuel-price-prediction-mlops` by executing the following command in the terminal:
 
 ```bash
 docker build -t fuel-price-prediction-service:v1 -f web-service/Dockerfile .

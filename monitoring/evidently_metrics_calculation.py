@@ -1,27 +1,26 @@
-import sys
+#pylint: disable=wrong-import-position
+
 import os
-
-# Correcting the typo from os.path.json to os.path.join
-sys.path.append(os.path.abspath(os.path.join('..', 'src')))
-
+import sys
 import datetime
 import time
 import random
 import logging
-import uuid
 import pytz
 import pandas as pd
-import io
 import psycopg
 import mlflow
 import numpy as np
-from predict import forecast
-
 from prefect import task, flow
-
 from evidently.report import Report
 from evidently import ColumnMapping
 from evidently.metrics import ColumnDriftMetric, DatasetDriftMetric, DatasetMissingValuesMetric
+
+# Correcting the typo from os.path.json to os.path.join
+sys.path.append(os.path.abspath(os.path.join('..', 'src')))
+
+from predict import forecast
+
 
 
 logging.basicConfig(level=logging.INFO, 
@@ -66,13 +65,17 @@ report = Report(metrics = [
 
 @task
 def prep_db():
-	with psycopg.connect("host=localhost port=5432 user=postgres password=example", 
-                      autocommit=True) as conn:
-		res = conn.execute("SELECT 1 FROM pg_database WHERE datname='test'")
-		if len(res.fetchall()) == 0:
-			conn.execute("create database test;")
-		with psycopg.connect("host=localhost port=5432 dbname=test user=postgres password=example") as conn:
-			conn.execute(create_table_statement)
+	#pylint: disable = not-context-manager
+	try:
+		with psycopg.connect("host=localhost port=5432 user=postgres password=example", 
+						autocommit=True) as conn:
+			res = conn.execute("SELECT 1 FROM pg_database WHERE datname='test'")
+			if len(res.fetchall()) == 0:
+				conn.execute("create database test;")
+			with psycopg.connect("host=localhost port=5432 dbname=test user=postgres password=example") as conn:
+				conn.execute(create_table_statement)
+	except psycopg.Error as e:
+		print(f"An error occured: {e}")
 
 @task
 def calculate_metrics_postgresql(curr, i):
@@ -102,6 +105,7 @@ def calculate_metrics_postgresql(curr, i):
 
 @flow
 def batch_monitoring_backfill():
+	#pylint: disable = not-context-manager
 	prep_db()
 	last_send = datetime.datetime.now() - datetime.timedelta(seconds=10)
 	with psycopg.connect("host=localhost port=5432 dbname=test user=postgres password=example", 

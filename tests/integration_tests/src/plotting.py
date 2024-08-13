@@ -1,15 +1,11 @@
-import warnings
 import matplotlib.pyplot as plt
 import seaborn as sns
+import warnings
 import numpy as np
 
-def plot_forecast(data, val_data,forecast_params):
-    prediction_horizon = forecast_params['prediction_horizon']
-    future_timestamps = forecast_params['future_timestamps']
-    forecasted_values = forecast_params['forecasted_values']
-    combined_index = forecast_params['combined_index']
-    sequence_to_plot = forecast_params['sequence_to_plot']
-
+def plot_forecast(data, val_data, prediction_horizon, future_timestamps, 
+                  forecasted_values, combined_index, 
+                  sequence_to_plot):
     #set the size of the plot 
     _, ax = plt.subplots(figsize = (12,4))
 
@@ -22,13 +18,11 @@ def plot_forecast(data, val_data,forecast_params):
     #the historical data used as input for forecasting
     ax.plot(val_data.index[-24:], original_cases, label='actual values', color='green') 
 
+    #Forecasted Values 
     #reverse the scaling transformation
     forecasted_cases = np.expand_dims(forecasted_values, axis=0).flatten() 
     # plotting the forecasted values
-    ax.plot(combined_index[-prediction_horizon:], 
-            forecasted_cases, 
-            label='forecasted values', 
-            color='red') 
+    ax.plot(combined_index[-prediction_horizon:], forecasted_cases, label='forecasted values', color='red') 
 
     ds = data.index
     test_timestamps = ds[(ds >= future_timestamps[0]) & (ds <= future_timestamps[-1])]
@@ -73,7 +67,7 @@ def predict_actual_dist(df, future_timestamps, forecasted_cases):
 
 
 def plot_learning_curve(num_epochs, train_hist, val_hist):
-    _, ax = plt.subplots(figsize= (12,4))
+    fig, ax = plt.subplots(figsize= (12,4))
     x = np.linspace(1,num_epochs,num_epochs)
     ax.plot(x, train_hist,scalex=True, label="Training loss")
     ax.plot(x, val_hist, label="Validation loss")

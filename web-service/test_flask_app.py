@@ -1,3 +1,4 @@
+#pylint: disable=duplicate-code
 import pandas as pd
 import requests
 

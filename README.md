@@ -179,6 +179,62 @@ cd tests
  pytest unit_tests/
 ```
 
+- [x] **Integration Tests**
+
+We run an integration test for web service deployment using the Dockerfile. To do that, simply do the following for the parent directory of the project:
+
+```bash
+cd tests/integration_tests
+```
+
+Next, build the Docker image:
+
+```bash
+docker build -t fuel-price-prediction-service:test .
+```
+
+and then run the Docker image:
+
+```bash
+docker run -it --rm -p 8080:8080 fuel-price-prediction-service:test
+```
+
+Next, create another tab in the same terminal and run:
+
+```bash
+ python .\test_docker.py
+```
+
+Alternatively, if you have administrative permissions and you are using a Bash shell, you could simply run the following in-lieu of the previous steps above:
+
+```bash
+./run.sh
+```
+
+For the `run.sh` bash script to work, you have to ensure that the port 8080 is available on your host machine.
+
+- [x] **Linting and Code formating**
+
+- **Linting**
+
+For linting, we use Pylint and run the following in the project's parent directory:
+
+```bash
+ pylint --recursive=y .
+```
+
+Next, you could run the following in a Bash terminal to check if linting check will fail before a pre-commit in GitHub:
+```bash
+$ echo $?
+30
+```
+
+
+
+
+
+
+
 
 ### **6. Reproducibility**:
 - Detailed instructions on how to set up the environment and run the code are already explained in the sections 

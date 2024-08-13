@@ -1,39 +1,40 @@
-import matplotlib.pyplot as plt
-from data_collection import save_data
-import warnings
-warnings.filterwarnings("ignore", category=FutureWarning)
 import pandas as pd
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
+from utils import *
+import matplotlib.pyplot as plt
 import torch
-
+from data_collection import *
 
 
 def read_dataframe(path):
     data_path = path
-    dataframe = pd.read_parquet(data_path)
-    return dataframe
+    df = pd.read_parquet(data_path)
+    return df
 
-def convert_to_timeseries(dataframe):
-    dataframe['date'] = pd.to_datetime(dataframe['date'], utc=True)
-    dataframe.set_index('date', inplace=True)
-    return dataframe
+def convert_to_timeseries(df):
+    df['date'] = pd.to_datetime(df['date'], utc=True)
+    df.set_index('date', inplace=True)
+    return df
 
 
-def resample_timeseries(dataframe, column_name, frequency):
-    df_resampled = dataframe[column_name].resample(frequency).mean().interpolate(method = "linear")
+def resample_timeseries(df, col_name, sampling_freq):
+    sampling_freq = sampling_freq
+    df_resampled = df[col_name].resample(sampling_freq).mean().interpolate(method = "linear")
     df_resampled = pd.DataFrame(df_resampled)
     return df_resampled
 
-def prepare_data(path, column_name, frequency):
-    dataframe = read_dataframe(path)
-    dataframe = convert_to_timeseries(dataframe)
-    df_resampled = resample_timeseries(dataframe, column_name, frequency)
+def prepare_data(path, col_name, sampling_freq):
+    df = read_dataframe(path)
+    df = convert_to_timeseries(df)
+    df_resampled = resample_timeseries(df, col_name, sampling_freq)
     return df_resampled
 
 
-def prepare_X_y(name, dataframe, sequence_length):
+def prepare_X_y(name, data, sequence_length):
 
-    dataset = dataframe.values
+    dataset = data.values
     dataset = dataset[~np.isnan(dataset)]
     # reshaping 1D to 2D array
     dataset = np.reshape(dataset, (-1, 1))

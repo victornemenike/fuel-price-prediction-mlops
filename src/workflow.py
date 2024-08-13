@@ -1,4 +1,8 @@
 from prefect import flow, task
+import pandas as pd
+import torch
+import mlflow
+from mlflow.tracking import MlflowClient
 from data_collection import load_data
 from data_processing import convert_to_timeseries
 from data_processing import resample_timeseries
@@ -9,11 +13,6 @@ from train import save_model, register_model
 from plotting import plot_learning_curve
 from model_registry import register_model
 from model_registry import transition_model
-import pandas as pd
-import torch
-import mlflow
-from mlflow.tracking import MlflowClient
-import pickle
 
 @task
 def collect_data(root_directory: str, station_uuid: str):

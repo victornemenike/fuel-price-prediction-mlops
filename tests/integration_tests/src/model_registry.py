@@ -1,10 +1,8 @@
-# pylint: disable=duplicate-code
-from datetime import datetime 
 import warnings
-import mlflow
-from mlflow.tracking import MlflowClient  
 warnings.filterwarnings("ignore", category= FutureWarning)
-
+import mlflow
+from mlflow.tracking import MlflowClient   
+from datetime import datetime 
 
 
 def register_model(run_id, model_name):

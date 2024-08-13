@@ -1,37 +1,32 @@
 #pylint: disable=duplicate-code
-import sys
 import os
-import pickle
+import sys
 import numpy as np
 import torch
 import pandas as pd
+import pickle
 from flask import Flask, request, jsonify
-
-# Correcting the typo from os.path.json to os.path.join
 sys.path.append(os.path.abspath(os.path.join('..', 'src')))
 
-#pylint: disable=wrong-import-position
 from data_processing import prepare_X_y
-from data_processing import generate_future_timestamps
-from plotting import plot_forecast_web_service
 
 
 
 def convert_to_serializable(obj):
+    # pylint: disable=missing-function-docstring
     if isinstance(obj, np.float32):
         return float(obj)
-    if isinstance(obj, np.ndarray):
+    elif isinstance(obj, np.ndarray):
         return obj.tolist()
-    if isinstance(obj, dict):
+    elif isinstance(obj, dict):
         return {k: convert_to_serializable(v) for k, v in obj.items()}
-    if isinstance(obj, list):
+    elif isinstance(obj, list):
         return [convert_to_serializable(v) for v in obj]
-    
-    return obj
+    else:
+        return obj
 
 
 def forecast(model, recent_data, num_forecast_steps):
-
     X_val, _ = prepare_X_y('recent data', recent_data, sequence_length=24)
 
     # Convert to NumPy and remove singleton dimensions
@@ -75,8 +70,8 @@ def forecast(model, recent_data, num_forecast_steps):
 
 def predict(recent_data, num_forecast_steps):
 
-    model_docker_path = 'fuel_price_lstm.pickle' 
-    with open(model_docker_path, 'rb') as f_in:
+    model_path = 'fuel_price_lstm.pickle' 
+    with open(model_path, 'rb') as f_in:
         loaded_model = pickle.load(f_in)
 
 
@@ -86,25 +81,6 @@ def predict(recent_data, num_forecast_steps):
                                                      )
     return prediction_horizon, forecasted_values
     
-
-def plot_prediction(recent_data, num_forecast_steps, 
-                  prediction_horizon, forecasted_values):   
-     # Generate futute dates
-    last_timestamp = recent_data.index[-1]
-
-    # Define the number of future time steps to forecast
-    time_interval_min = 60 # @minute intervals
-
-    # Generate the next stipulated timepoints
-    future_timestamps = generate_future_timestamps(last_timestamp, 
-                                                   num_forecast_steps, 
-                                                   time_interval_min)
-
-    # Concatenate the original index with the future dates
-    combined_index = recent_data.index.append(future_timestamps)
-
-    plot_forecast_web_service(recent_data, prediction_horizon, 
-                  forecasted_values, combined_index)
         
 
 app = Flask('fuel-price-prediction')
@@ -130,5 +106,5 @@ def forecast_endpoint():
     return jsonify(serializable_result)
 
 if __name__ == "__main__":
-    app.run(debug=True, host = '0.0.0.0', port = 9696)
+    app.run(debug=True, host = '0.0.0.0', port = 8080)
     

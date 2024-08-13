@@ -1,24 +1,23 @@
-# pylint: disable=duplicate-code
-import os
-import pickle
-import joblib
 import mlflow
 from mlflow.tracking import MlflowClient
 import torch
 import torch.nn as nn
-import pandas as pd
-from data_processing import prepare_X_y
+import torch.nn.functional as F
+import torch.optim as optim
+from torch.utils.data import Dataset, DataLoader
+from data_processing import *
 from plotting import plot_learning_curve
+import pickle
+import joblib
+from datetime import datetime
 from model_registry import register_model
 from model_registry import transition_model
 
 
 class LSTMModel(nn.Module):
-    '''
-      input_size : number of features in input at each time step
-      hidden_size : Number of LSTM units 
-      num_layers : number of LSTM layers 
-    '''
+      # input_size : number of features in input at each time step
+      # hidden_size : Number of LSTM units 
+      # num_layers : number of LSTM layers 
     def __init__(self, input_size, hidden_size, num_layers): 
         super(LSTMModel, self).__init__() #initializes the parent class nn.Module
         self.lstm = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True)
@@ -53,7 +52,6 @@ def train_model(train_loader,val_loader,
                 num_epochs, learning_rate,
                 train_data_path = None,
                 val_data_path = None):
-    #pylint: disable = not-callable
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     input_size = 1
@@ -194,14 +192,14 @@ if __name__ == '__main__':
     
     num_epochs = 50
     learning_rate = 1e-3
-    trained_model, run, train_hist, val_hist = train_model(train_loader,val_loader, 
+    model, run, train_hist, val_hist = train_model(train_loader,val_loader, 
                                        num_epochs, learning_rate,
                                        train_data_path, val_data_path)
     print(f'Current MLflow run id: {run.info.run_id}')
 
     model_dir = "models"
     model_format = "pickle"
-    save_model(trained_model, model_dir, model_format)
+    save_model(model, model_dir, model_format)
 
     model_name = "fuel-price-predictor"
     mlflow_registry(client, run, model_name)

@@ -1,26 +1,24 @@
-# pylint: disable=missing-module-docstring
-import os
 import pandas as pd
+import os
 
-
-def load_data(data_dir, station_id):
+def load_data(root_directory, station_uuid):
     all_dataframes = []
 
-    for root, _, files in os.walk(data_dir):
+    for root, dirs, files in os.walk(root_directory):
         for file in files:
             if file.endswith('.csv'):
                 file_path = os.path.join(root, file)
                 print(f"processing: {file_path}")
 
                 # read the csv file
-                dataframe = pd.read_csv(file_path)
-                dataframe = dataframe[dataframe.station_uuid == station_id]
+                df = pd.read_csv(file_path)
+                df = df[df.station_uuid == station_uuid]
 
                 # Optional: add a column to identify the source file or subfolder
-                dataframe['source'] = os.path.relpath(file_path, data_dir)
+                df['source'] = os.path.relpath(file_path, root_directory)
 
                 # Append  the dataframe to the list
-                all_dataframes.append(dataframe)
+                all_dataframes.append(df)
 
     # Combine all dataframes into a single dataframe
     combined_df = pd.concat(all_dataframes, ignore_index= True)
@@ -31,9 +29,9 @@ def load_data(data_dir, station_id):
 
     return combined_df
 
-def save_data(dataframe, file_path):
-    print(f'saving to file: {file_path}')
-    dataframe.to_parquet(file_path)
+def save_data(df, file_name):
+    print(f'saving to file: {file_name}')
+    df.to_parquet(file_name)
 
 
 
@@ -44,4 +42,6 @@ if __name__ == '__main__':
     file_name = '../data/2024_globus_gas_prices.parquet'
 
     df = load_data(root_directory, station_uuid)
+    
     save_data(df, file_name)
+    

@@ -1,17 +1,18 @@
-import matplotlib.pyplot as plt
-from data_collection import save_data
 import warnings
+
 warnings.filterwarnings("ignore", category=FutureWarning)
-import pandas as pd
 import numpy as np
+import pandas as pd
 import torch
 
+from data_collection import save_data
 
 
 def read_dataframe(path):
     data_path = path
     dataframe = pd.read_parquet(data_path)
     return dataframe
+
 
 def convert_to_timeseries(dataframe):
     dataframe['date'] = pd.to_datetime(dataframe['date'], utc=True)
@@ -20,9 +21,12 @@ def convert_to_timeseries(dataframe):
 
 
 def resample_timeseries(dataframe, column_name, frequency):
-    df_resampled = dataframe[column_name].resample(frequency).mean().interpolate(method = "linear")
+    df_resampled = (
+        dataframe[column_name].resample(frequency).mean().interpolate(method="linear")
+    )
     df_resampled = pd.DataFrame(df_resampled)
     return df_resampled
+
 
 def prepare_data(path, column_name, frequency):
     dataframe = read_dataframe(path)
@@ -41,8 +45,8 @@ def prepare_X_y(name, dataframe, sequence_length):
     # Create sequences and labels for training data
     X, y = [], []
     for i in range(len(dataset) - sequence_length):
-        X.append(dataset[i:i+sequence_length])
-        y.append(dataset[i+1:i+sequence_length+1])
+        X.append(dataset[i : i + sequence_length])
+        y.append(dataset[i + 1 : i + sequence_length + 1])
     X, y = np.array(X), np.array(y)
 
     # Convert data to PyTorch tensors
@@ -52,8 +56,6 @@ def prepare_X_y(name, dataframe, sequence_length):
     print(f'The {name} set has {dataset.shape[0]} samples')
 
     return X, y
-   
-
 
 
 if __name__ == '__main__':
@@ -73,5 +75,3 @@ if __name__ == '__main__':
     test_data = data['2024-07-14':]
     test_data_path = '../data/2024_test_data.parquet'
     save_data(test_data, test_data_path)
-    
-    

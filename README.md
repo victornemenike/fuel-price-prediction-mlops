@@ -279,15 +279,17 @@ pre-commit run --all-files
 Next, you can stage and commit files are usual and the file will be taken through the pre-commit sequence. For example:
 
 ```bash
-git add src/train.py
+git add README.md
 ```
 
 ```bash
-git commit -m 'fixes from precommit hooks for src/train'
+git commit -m 'update README'
 ```
+![Alt text](images/pre-commit_snapshot.png)
+
 
 ### **6. Reproducibility**:
-- Detailed instructions on how to set up the environment and run the code are already explained in the sections
+- Detailed instructions on how to set up the environment and run the code are already explained in the sections above.
 - All dependencies and their versions are specified in `requirements.txt`.
 
 ---

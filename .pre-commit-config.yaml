@@ -28,5 +28,6 @@ repos:
       args: [
         "-rn", # Only display messages
         "-sn", # Don't display the score
-        "--recursive=y"
+        "--recursive=y",
+        "--rcfile=pyproject.toml" # Ensure pylint uses pyproject.toml
       ]

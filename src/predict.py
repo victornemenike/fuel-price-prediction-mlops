@@ -1,10 +1,12 @@
-import numpy as np
 import mlflow
+import numpy as np
 import pandas as pd
 import torch
+
 from data_processing import prepare_X_y
-from data_processing import generate_future_timestamps
 from plotting import plot_forecast
+from utils import generate_future_timestamps
+
 
 def forecast_future_values_local(model, historical_data, num_forecast_steps, device):
     forecasted_values = []
@@ -12,7 +14,9 @@ def forecast_future_values_local(model, historical_data, num_forecast_steps, dev
 
     with torch.no_grad():
         for _ in range(prediction_horizon):
-            historical_data_tensor = torch.as_tensor(historical_data).view(1, -1, 1).float().to(device)
+            historical_data_tensor = (
+                torch.as_tensor(historical_data).view(1, -1, 1).float().to(device)
+            )
             predicted_value = model(historical_data_tensor).cpu().numpy()[0, 0]
             forecasted_values.append(predicted_value[0])
 
@@ -21,12 +25,13 @@ def forecast_future_values_local(model, historical_data, num_forecast_steps, dev
 
     return prediction_horizon, forecasted_values
 
+
 def local_model_forecast(model, data_name, data, num_forecast_steps):
 
     X_val, _ = prepare_X_y(data_name, data, sequence_length=24)
 
     # Define the number of future time steps to forecast
-    time_interval_min = 60 # @minute intervals
+    time_interval_min = 60  # @minute intervals
 
     # Convert to NumPy and remove singleton dimensions
     sequence_to_plot = X_val.squeeze().cpu().numpy()
@@ -38,18 +43,28 @@ def local_model_forecast(model, data_name, data, num_forecast_steps):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     # Forecast values
-    prediction_horizon, forecasted_values = forecast_future_values_local(model, historical_data, num_forecast_steps, device)
-           
+    prediction_horizon, forecasted_values = forecast_future_values_local(
+        model, historical_data, num_forecast_steps, device
+    )
+
     # Generate futute dates
     last_timestamp = data.index[-1]
 
     # Generate the next stipulated timepoints
-    future_timestamps = generate_future_timestamps(last_timestamp, num_forecast_steps, time_interval_min)
+    future_timestamps = generate_future_timestamps(
+        last_timestamp, num_forecast_steps, time_interval_min
+    )
 
     # Concatenate the original index with the future dates
     combined_index = data.index.append(future_timestamps)
 
-    return prediction_horizon, future_timestamps, forecasted_values, combined_index, sequence_to_plot
+    return (
+        prediction_horizon,
+        future_timestamps,
+        forecasted_values,
+        combined_index,
+        sequence_to_plot,
+    )
 
 
 def forecast(model, data_name, data, num_forecast_steps):
@@ -57,7 +72,7 @@ def forecast(model, data_name, data, num_forecast_steps):
     X_val, _ = prepare_X_y(data_name, data, sequence_length=24)
 
     # Define the number of future time steps to forecast
-    time_interval_min = 60 # @minute intervals
+    time_interval_min = 60  # @minute intervals
 
     # Convert to NumPy and remove singleton dimensions
     sequence_to_plot = X_val.squeeze().cpu().numpy()
@@ -72,29 +87,36 @@ def forecast(model, data_name, data, num_forecast_steps):
 
     # Use the trained model to forecast future values
     for _ in range(prediction_horizon):
-        
+
         # Use the model to predict the next value
         predicted_value = model.predict(pd.DataFrame(historical_data))
-        
+
         # Append the predicted value to the forecasted_values list
         forecasted_values.append(predicted_value.values[0][0])
 
-        # Update the historical_data sequence by removing the oldest value and adding the predicted value
+        # Update the historical_data sequence
+        # remove the oldest value and add the predicted value
         historical_data = np.roll(historical_data, shift=-1)
         historical_data[-1] = predicted_value.values[0]
- 
-          
+
     # Generate futute dates
     last_timestamp = data.index[-1]
 
     # Generate the next stipulated timepoints
-    future_timestamps = generate_future_timestamps(last_timestamp, num_forecast_steps, time_interval_min)
+    future_timestamps = generate_future_timestamps(
+        last_timestamp, num_forecast_steps, time_interval_min
+    )
 
     # Concatenate the original index with the future dates
     combined_index = data.index.append(future_timestamps)
 
-    return prediction_horizon, future_timestamps, forecasted_values, combined_index, sequence_to_plot
-
+    return (
+        prediction_horizon,
+        future_timestamps,
+        forecasted_values,
+        combined_index,
+        sequence_to_plot,
+    )
 
 
 if __name__ == '__main__':
@@ -107,9 +129,8 @@ if __name__ == '__main__':
 
     val_data_path = '../data/2024_val_data.parquet'
     val_data = pd.read_parquet(val_data_path)
-    
 
-    #mlflow.set_tracking_uri("sqlite:///mlflow.db")
+    # mlflow.set_tracking_uri("sqlite:///mlflow.db")
     mlflow.set_tracking_uri("http://127.0.0.1:5000")
     mlflow.set_experiment("fuel-price-experiment")
 
@@ -119,16 +140,18 @@ if __name__ == '__main__':
     loaded_model = mlflow.pyfunc.load_model(logged_model)
     dataName = 'validation'
     forecast_steps = 0
-    horizon, forecast_timestamps, predictions, indices, plot_sequence = forecast(loaded_model, 
-                                                                                 dataName, val_data, forecast_steps)
+    horizon, forecast_timestamps, predictions, indices, plot_sequence = forecast(
+        loaded_model,
+        dataName,
+        val_data,
+        forecast_steps,
+    )
     forecast_params = {
         'prediction_horizon': horizon,
         'future_timestamps': forecast_timestamps,
         'forecasted_values': predictions,
         'combined_index': indices,
-        'sequence_to_plot': plot_sequence
-        }
+        'sequence_to_plot': plot_sequence,
+    }
 
     plot_forecast(refrence_data, val_data, forecast_params)
-        
-   

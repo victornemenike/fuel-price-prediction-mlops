@@ -5,7 +5,7 @@ This is the implementation of my project for the course mlops-zoomcamp from [Dat
 The goal of this project is to build an end-to-end machine learning pipeline to forecast the fuel price in a particular filling station in Germany. The main focus of the project is on creating a production service with experiment tracking, pipeline automation, and observability.
 
 ## Problem Statement
-Due to geopolitical issues and recent rise in inflation, the fuel prices have increased. However, the fuel prices of filling stations in most countries fluctuates at different times in a day. Being able to predict these prices, could help an individual to ascertain the right time to get the cheapest fuel prices in a particular filling station either during a day, week or timeframe of interest. This will lead to savings for the individual. As a example, only one particular filing station in one particular location will be considered. 
+Due to geopolitical issues and recent rise in inflation, the fuel prices have increased. However, the fuel prices of filling stations in most countries fluctuates at different times in a day. Being able to predict these prices, could help an individual to ascertain the right time to get the cheapest fuel prices in a particular filling station either during a day, week or timeframe of interest. This will lead to savings for the individual. As a example, only one particular filing station in one particular location will be considered.
 
 ## Dataset
 The dataset used for this project has been sourced from the [Tankerkoenig](https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data) Azure Repository.
@@ -22,6 +22,14 @@ This repository has four folders: *src*, *notebooks*, *models*, and *data*.
 - **Dockerfile**
   - Defines the Docker image for the project, specifying the environment and dependencies required to run the code.
 
+
+## **Quick Start**
+To get started with this project, do the following in the terminal:
+
+```bash
+git clone https://github.com/victornemenike/fuel-price-prediction-mlops.git
+```
+
 ## Implementation Details
 
 ### **1. Experiment Tracking and Model Registry**:
@@ -34,7 +42,7 @@ To run the MLflow server locally, simply go to the project root directory and ty
 ```bash
 mlflow ui --backend-store-uri=sqlite:///mlflow.db
 ```
-with is identical to: 
+with is identical to:
 
 ```bash
 mlflow ui --backend-store-uri sqlite:///mlflow.db
@@ -69,7 +77,7 @@ python src/workflow.py
 
 To deploy the Prefect workflow, **please, run all the following commands in project root directory**: `fuel-price-prediction-mlops`.
 
-First, we build the "Deployment" by providing the file and flow function names. A tag "dev" is also added to the Deployment. 
+First, we build the "Deployment" by providing the file and flow function names. A tag "dev" is also added to the Deployment.
 
 Now, we run run:
 
@@ -144,7 +152,7 @@ python test_flask_app.py
   Load MLflow in terminal like so:
 
   ```bash
-  mlflow server --backend-store-uri sqlite:///mlflow.db 
+  mlflow server --backend-store-uri sqlite:///mlflow.db
   ```
 
   To view the baseline model metrics via the Evidently UI, run the Jupyter notebook `baseline_model_monitoring.ipynb` and then run the following via the terminal:
@@ -158,7 +166,7 @@ python test_flask_app.py
   To monitor the model performance via Grafana, simply run the following via the terminal:
 
   ```bash
-  python evidently_metrics_calculation.py 
+  python evidently_metrics_calculation.py
   ```
 
   and then login to the Grafana Dashboard via the local host: `localhost:3000/`
@@ -215,40 +223,68 @@ For the `run.sh` bash script to work, you have to ensure that the port 8080 is a
 
 - [x] **Linting and Code formating**
 
+ For linting and code formating the packages `Pylint`, `black` and `isort` were used. The configurations for these packages are set in the file: `pyproject.toml`.
+
 - **Linting**
 
-For linting, we use Pylint and run the following in the project's parent directory:
+For linting, we use `Pylint` and run the following in the project's parent directory:
 
 ```bash
- pylint --recursive=y .
+pylint --recursive=y .
+```
+
+- **Formatting**
+For formatting, the package `black` was used to remove white spaces and ensure consistent styling in each folder. First, we check the changes that would be made by black by running:
+
+```bash
+black --skip-string-normalization --diff . | less
+```
+
+If we are satisfied, we simply run the following:
+
+```bash
+black .
+```
+**Note: after this, it is advised to check the changes made by `black`, by doing
+```bash
+git diff <filename>
+```
+
+If all is fine, we proceed. Otherwise, we revert back to the most stable Git commit.
+
+The package `isort` was used for arranging the import statements:
+
+```bash
+isort --diff . | less
+```
+
+```bash
+isort .
 ```
 
 Next, you could run the following in a Bash terminal to check if linting check will fail before a pre-commit in GitHub:
 ```bash
 $ echo $?
-30
 ```
 
-
-
-
-
-
-
-
-### **6. Reproducibility**:
-- Detailed instructions on how to set up the environment and run the code are already explained in the sections 
-- All dependencies and their versions are specified in `requirements.txt`.
-
-### **Quick Start**
-To get started with this project, do the following in the terminal:
+- [x] **Pre-commit hooks**
 
 ```bash
-git clone https://github.com/victornemenike/fuel-price-prediction-mlops.git
+ls -a
 ```
 
+To see the folder `.git` and then see `pre-commit.sample` like so:
 
+```bash
+less pre-commit.sample
+```
 
+```bash
+pre-commit install
+```
 
+### **6. Reproducibility**:
+- Detailed instructions on how to set up the environment and run the code are already explained in the sections
+- All dependencies and their versions are specified in `requirements.txt`.
 
 ---

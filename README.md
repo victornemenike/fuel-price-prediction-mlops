@@ -71,7 +71,7 @@ and run:
 ```bash
 python src/workflow.py
 ```
-![Alt text](images/prefect_workflow.png)
+![Alt text](images/prefect_workflow_2.png)
 
 **Prefect Workflow Deployment**
 

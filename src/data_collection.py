@@ -1,5 +1,6 @@
 # pylint: disable=missing-module-docstring
 import os
+
 import pandas as pd
 
 
@@ -23,19 +24,17 @@ def load_data(data_dir, station_id):
                 all_dataframes.append(dataframe)
 
     # Combine all dataframes into a single dataframe
-    combined_df = pd.concat(all_dataframes, ignore_index= True)
+    combined_df = pd.concat(all_dataframes, ignore_index=True)
 
     print(combined_df.head())
     print(f'Total rows: {len(combined_df)}')
 
-
     return combined_df
+
 
 def save_data(dataframe, file_path):
     print(f'saving to file: {file_path}')
     dataframe.to_parquet(file_path)
-
-
 
 
 if __name__ == '__main__':

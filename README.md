@@ -282,6 +282,20 @@ less pre-commit.sample
 ```bash
 pre-commit install
 ```
+You can optionally run:
+```bash
+pre-commit run --all-files
+```
+
+Next, you can stage and commit files are usual and the file will be taken through the pre-commit sequence. For example:
+
+```bash
+git add src/train.py
+```
+
+```bash
+git commit -m 'fixes from precommit hooks for src/train'
+```
 
 ### **6. Reproducibility**:
 - Detailed instructions on how to set up the environment and run the code are already explained in the sections

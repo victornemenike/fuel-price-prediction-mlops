@@ -266,7 +266,7 @@ $ echo $?
 
 - [x] **Pre-commit hooks**
 
-Pre-commit hooks are especially useful to ensure that your code passes some quality checks before it is committed. The pre-commit configurations for this project can be found in the yaml file: `.pre-commit-config.yaml`. To use pre-commit hooks, simply follow these steps:
+Git hooks are especially useful to ensure that your code passes some quality checks before it is committed. For this project, the [pre-commit](https://pre-commit.com/) package is used for these hooks. The pre-commit configurations for this project can be found in the yaml file: `.pre-commit-config.yaml`. To use pre-commit hooks, simply follow these steps:
 
 ```bash
 pre-commit install

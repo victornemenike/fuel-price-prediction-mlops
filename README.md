@@ -225,15 +225,12 @@ For the `run.sh` bash script to work, you have to ensure that the port 8080 is a
 
  For linting and code formating the packages `Pylint`, `black` and `isort` were used. The configurations for these packages are set in the file: `pyproject.toml`.
 
-- **Linting**
-
 For linting, we use `Pylint` and run the following in the project's parent directory:
 
 ```bash
 pylint --recursive=y .
 ```
 
-- **Formatting**
 For formatting, the package `black` was used to remove white spaces and ensure consistent styling in each folder. First, we check the changes that would be made by black by running:
 
 ```bash
@@ -269,15 +266,7 @@ $ echo $?
 
 - [x] **Pre-commit hooks**
 
-```bash
-ls -a
-```
-
-To see the folder `.git` and then see `pre-commit.sample` like so:
-
-```bash
-less pre-commit.sample
-```
+Pre-commit hooks are especially useful to ensure that your code passes some quality checks before it is committed. The pre-commit configurations for this project can be found in the yaml file: `.pre-commit-config.yaml`. To use pre-commit hooks, simply follow these steps:
 
 ```bash
 pre-commit install

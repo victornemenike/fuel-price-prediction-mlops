@@ -42,6 +42,16 @@ To prepare the project, run:
 make setup
 ```
 
+If you do not have `make` installed or are having issues using `make`, simply run the following:
+
+```bash
+pip install -r requirements.txt
+```
+
+```bash
+pre-commit install
+```
+
 Next, run the following training pipeline to train the model:
 
 ```bash

@@ -315,7 +315,7 @@ git commit -m 'update README'
 
 - [x] Makefiles and make
 
-As a optional step, a `Makefile` has been provided in the parent directory of this project. To use the `Makefile` you need to ensure you have (`make`)[https://www.gnu.org/software/make/] installed. In the `Makefile`, there are five programs you can run, namely: `test`, `integration_test`,  `quality_checks`, `build` and `publish. To run any of these programs, simply do:
+As a optional step, a `Makefile` has been provided in the parent directory of this project. To use the `Makefile` you need to ensure you have [`make`](https://www.gnu.org/software/make/) installed. In the `Makefile`, there are five programs you can run, namely: `test`, `integration_test`,  `quality_checks`, `build` and `publish. To run any of these programs, simply do:
 
 ```bash
 make <program>

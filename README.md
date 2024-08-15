@@ -54,7 +54,7 @@ Finally, you can make forecasts and visualization the forecasts by running:
 python src/predict.py
 ```
 
-For more details on deploying the model as a web service or model monitoring see the [Implementation Details](implementation-details) section below.
+For more details on deploying the model as a web service or model monitoring see the [Implementation Details](#implementation-details) section below.
 
 ## Implementation Details
 

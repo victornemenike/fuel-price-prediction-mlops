@@ -329,7 +329,7 @@ make test
 
 
 ### **6. Reproducibility**:
-- Detailed instructions on how to set up the environment and run the code are already explained in the sections above.
+- Detailed instructions on how to set up the environment and run the code are explained in the [Quick Start](#quick-start) and [Implementation Details](#implementation-details) sections above.
 - All dependencies and their versions are specified in `requirements.txt`.
 
 ---

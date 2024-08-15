@@ -30,6 +30,32 @@ To get started with this project, do the following in the terminal:
 git clone https://github.com/victornemenike/fuel-price-prediction-mlops.git
 ```
 
+Next, move into the folder on your local system:
+
+```bash
+cd fuel-price-prediction-mlops/
+```
+
+To prepare the project, run:
+
+```bash
+make setup
+```
+
+Next, run the following training pipeline to train the model:
+
+```bash
+python src/workflow.py
+```
+
+Finally, you can make forecasts and visualization the forecasts by running:
+
+```bash
+python src/predict.py
+```
+
+For more details on deploying the model as a web service or model monitoring see the [Implementation Details](implementation-details) section below.
+
 ## Implementation Details
 
 ### **1. Experiment Tracking and Model Registry**:
@@ -286,6 +312,20 @@ git add README.md
 git commit -m 'update README'
 ```
 ![Alt text](images/pre-commit_snapshot.png)
+
+- [x] Makefiles and make
+
+As a optional step, a `Makefile` has been provided in the parent directory of this project. To use the `Makefile` you need to ensure you have (`make`)[https://www.gnu.org/software/make/] installed. In the `Makefile`, there are five programs you can run, namely: `test`, `integration_test`,  `quality_checks`, `build` and `publish. To run any of these programs, simply do:
+
+```bash
+make <program>
+```
+
+For example, to run `test`, simply run:
+
+```bash
+make test
+```
 
 
 ### **6. Reproducibility**:

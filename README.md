@@ -34,10 +34,7 @@ git clone https://github.com/victornemenike/fuel-price-prediction-mlops.git
 cd fuel-price-prediction-mlops/
 ```
 
-To run the project quickly, you would need to use [`make`](https://www.gnu.org/software/make/) to do the following:
-
-
-To prepare the project and install all dependencies, run:
+To prepare the project and install all dependencies, run the following using [`make`](https://www.gnu.org/software/make/):
 
 ```bash
 make setup
@@ -62,29 +59,6 @@ make training_pipeline
 Make an inference/time series forecast by running:
 ```bash
 make predict
-```
-
-
-Alternatively, if you do not have `make` installed or are having issues using `make`, simply run the following:
-
-```bash
-pip install -r requirements.txt
-```
-
-```bash
-pre-commit install
-```
-
-Next, run the following training pipeline to train the model:
-
-```bash
-python src/workflow.py
-```
-
-Finally, you can make forecasts and visualization the forecasts by running:
-
-```bash
-python src/predict.py
 ```
 
 For more details on deploying the model as a web service or model monitoring see the [Implementation Details](#implementation-details) section below.

@@ -30,19 +30,42 @@ To get started with this project, do the following in the terminal:
 git clone https://github.com/victornemenike/fuel-price-prediction-mlops.git
 ```
 
-Next, move into the folder on your local system:
-
 ```bash
 cd fuel-price-prediction-mlops/
 ```
 
-To prepare the project, run:
+To run the project quickly, you would need to use [`make`](https://www.gnu.org/software/make/) to do the following:
+
+
+To prepare the project and install all dependencies, run:
 
 ```bash
 make setup
 ```
+Run quality checks like so:
 
-If you do not have `make` installed or are having issues using `make`, simply run the following:
+```bash
+make qualilty_checks
+```
+
+Start-up MLflow:
+
+```bash
+make mlflow
+```
+
+Next, start the training pipeline with:
+```bash
+make training_pipeline
+```
+
+Make an inference/time series forecast by running:
+```bash
+make predict
+```
+
+
+Alternatively, if you do not have `make` installed or are having issues using `make`, simply run the following:
 
 ```bash
 pip install -r requirements.txt

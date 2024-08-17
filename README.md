@@ -61,6 +61,11 @@ Make an inference/time series forecast by running:
 make predict
 ```
 
+To run everything above in one shot:
+```bash
+make run_all
+```
+
 For more details on deploying the model as a web service or model monitoring see the [Implementation Details](#implementation-details) section below.
 
 ## Implementation Details
@@ -322,16 +327,16 @@ git commit -m 'update README'
 
 - [x] Makefiles and make
 
-As a optional step, a `Makefile` has been provided in the parent directory of this project. To use the `Makefile` you need to ensure you have [`make`](https://www.gnu.org/software/make/) installed. In the `Makefile`, there are five programs you can run, namely: `test`, `integration_test`,  `quality_checks`, `build` and `publish. To run any of these programs, simply do:
+As a optional step, a `Makefile` has been provided in the parent directory of this project. To use the `Makefile` you need to ensure you have [`make`](https://www.gnu.org/software/make/) installed. In the `Makefile`, there are six programs you can run, namely: `setup`, `qualilty_checks`,  `mlflow`, `training_pipeline`, `training_pipeline`, `predict` and `run_all`. To run any of these programs, simply do:
 
 ```bash
 make <program>
 ```
 
-For example, to run `test`, simply run:
+For example, to `run_all`, simply run:
 
 ```bash
-make test
+make run_all
 ```
 
 

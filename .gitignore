@@ -20,3 +20,4 @@ tests/unit_tests/.pytest_cache
 test_bat.bat
 scripts/
 notebooks/
+src/workflow.py

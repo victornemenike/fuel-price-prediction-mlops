@@ -12,7 +12,7 @@ mlflow:
 
 
 training_pipeline:
-	python src/workflow.py
+	python src/ml_workflow.py
 
 
 predict:

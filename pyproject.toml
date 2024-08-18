@@ -16,6 +16,7 @@ disable = [
     "duplicate-code",
     "line-too-long",
     "wrong-import-position",
+    "trailing-whitespace",
     ]
 
 [tool.black]

@@ -12,16 +12,29 @@ The dataset used for this project has been sourced from the [Tankerkoenig](https
 
 ## Project Details
 This repository has four folders: *src*, *notebooks*, *models*, and *data*.
-- The `data` folder contains the dataset for the project and the code used to generate the data. Here only data for 2024 (01-01-2024 to 21-07-2024). The fuel price data for 2024 was downloaded from [Tankerkoenig](https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data), preprocessed by using the script `prepare_data.py` in `src` and saved as `2024_globus_gas_prices.parquet`. Please, note that due the large size of the original raw data for 2024, the dataset was not committed to GitHub (see the `.gitignore` file). Nevertheles, you can download the 2024 data from [Tankerkoenig](https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data).
+- The `data` folder contains the dataset used in this project. The data was obtained from [Tankerkoenig](https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data). Here, only data for 2024 (01-01-2024 to 21-07-2024) was used. Please, note that due the large size of the original raw data for 2024, the dataset was not committed to GitHub (see the `.gitignore` file).
 - The `notebooks` folder contains Jupyter notebooks used for exploratory data analysis (EDA).
 - The `src` folder contains the source code for the project.
+
+## Instructions for Downloading the Data
+
+In order to fully reproduced the results in this project, you would need to download the 2024 German filling station fuel `prices` and `stations` data from [Tankerkoenig](https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data).
+
+To do this, do the following:
+
+- Download the 2024 fuel prices and save it in the `data` folder as a folder `2024_prices`: https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data?path=/prices/2024
+- Download the 2024 station prices and store it in the `data` folder as a folder `2024_stations`: https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data?path=/stations
+
+As already mentioned, these are large files and have not been saved in this Git repo. Nonetheless, downloading these data will enable you to reproduce all the results in this work especially the `Prefect workflow` ([see](#2-workflow-orchestration)).
+
+Alternatively, you could clone the entire [Tankerkoenig](https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data) repository into an AWS S3 bucket.
+
 
 ## Additional Files
 - **requirements.txt**
   - Lists all the Python dependencies required for the project.
 - **Dockerfile**
   - Defines the Docker image for the project, specifying the environment and dependencies required to run the code.
-
 
 ## **Quick Start**
 To get started with this project, do the following in the terminal:
@@ -67,6 +80,29 @@ make run_all
 ```
 
 For more details on deploying the model as a web service or model monitoring see the [Implementation Details](#implementation-details) section below.
+
+## Cloud
+
+Amazon Web Services was used as the cloud provider for the MLflow tracking.
+To configure you own AWS instance, follow the instructions in this [link](https://github.com/DataTalksClub/mlops-zoomcamp/blob/main/02-experiment-tracking/mlflow_on_aws.md).
+
+Using the EC2 Console on AWS, the following commands to install the dependencies, configure the environment and launch the server:
+
+- `sudo yum update`
+
+- `pip3 install mlflow boto3 psycopg2-binary`
+
+- `aws configure` and then insert your AWS credentials
+
+- `mlflow server -h 0.0.0.0 -p 5000 --backend-store-uri postgresql://DB_USER:DB_PASSWORD@DB_ENDPOINT:5432/DB_NAME --default-artifact-root s3://S3_BUCKET_NAME`
+
+```bash
+aws configure
+```
+
+```bash
+aws s3 ls
+```
 
 ## Implementation Details
 
@@ -327,7 +363,7 @@ git commit -m 'update README'
 
 - [x] Makefiles and make
 
-As a optional step, a `Makefile` has been provided in the parent directory of this project. To use the `Makefile` you need to ensure you have [`make`](https://www.gnu.org/software/make/) installed. In the `Makefile`, there are six programs you can run, namely: `setup`, `qualilty_checks`,  `mlflow`, `training_pipeline`, `training_pipeline`, `predict` and `run_all`. To run any of these programs, simply do:
+As a optional step, a `Makefile` has been provided in the parent directory of this project. To use the `Makefile` you need to ensure you have [`make`](https://www.gnu.org/software/make/) installed. In the `Makefile`, there are six programs you can run, namely: `setup`, `qualilty_checks`,  `mlflow`, `training_pipeline`, `predict` and `run_all`. To run any of these programs, simply do:
 
 ```bash
 make <program>

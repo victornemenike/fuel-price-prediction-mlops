@@ -146,5 +146,5 @@ def ml_pipeline(root_directory: str, MLFLOW_mode: str = 'local'):
 
 if __name__ == "__main__":
     data_directory = 'data/2024_prices'
-    mlflow_mode = 'aws'
+    mlflow_mode = 'local'
     ml_pipeline(data_directory, mlflow_mode)

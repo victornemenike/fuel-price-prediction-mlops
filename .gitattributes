@@ -1,5 +1,0 @@
-*.py text
-
-*.py eol=lf
-
-images/* linguist-vendored

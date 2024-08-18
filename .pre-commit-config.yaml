@@ -14,13 +14,13 @@ repos:
   hooks:
     - id: isort
       name: isort (python)
-      exclude: src/ml_workflow.py
+      exclude: 'src/ml_workflow.py|monitoring/evidently_metrics_calculation.py'
 - repo: https://github.com/psf/black
   rev: 24.8.0
   hooks:
     - id: black
       language_version: python3.11
-      exclude: src/ml_workflow.py
+      exclude: 'src/ml_workflow.py|monitoring/evidently_metrics_calculation.py'
 - repo: local
   hooks:
     - id: pylint

@@ -21,3 +21,4 @@ test_bat.bat
 scripts/
 notebooks/
 src/workflow.py
+aws_mlflow_script

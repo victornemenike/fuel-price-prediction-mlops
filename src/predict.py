@@ -121,24 +121,24 @@ def forecast(model, data_name, data, num_forecast_steps):
 
 if __name__ == '__main__':
 
-    data_path = '../data/2024_globus_gas_prices.parquet'
+    data_path = 'data/2024_globus_gas_prices.parquet'
     df = pd.read_parquet(data_path)
     df['date'] = pd.to_datetime(df['date'], utc=True)
     df.set_index('date', inplace=True)
     refrence_data = df['e5']
 
-    val_data_path = '../data/2024_val_data.parquet'
+    val_data_path = 'data/2024_val_data.parquet'
     val_data = pd.read_parquet(val_data_path)
 
     mlflow.set_tracking_uri("sqlite:///mlflow.db")
     mlflow.set_experiment("fuel-price-experiment")
 
     # Load model as a PyFuncModel
-    run_id = '337ff4b11daf4118a3c9a64263073c4b'
+    run_id = '2f41d5e9dc5f4e15a707755bef4386b5'
     logged_model = f'runs:/{run_id}/LSTM-model'
     loaded_model = mlflow.pyfunc.load_model(logged_model)
     dataName = 'validation'
-    forecast_steps = 0
+    forecast_steps = 24
     horizon, forecast_timestamps, predictions, indices, plot_sequence = forecast(
         loaded_model,
         dataName,

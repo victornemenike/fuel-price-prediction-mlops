@@ -173,15 +173,9 @@ and run:
 python src/ml_workflow.py
 ```
 
-OR
-
-```bash
-python src/ml_workflow.py
-```
-
 ![Alt text](images/prefect_workflow_2.png)
 
-If you followed the [Instructions for the Downloading the Data], you could run the following instead:
+If you followed the (Instructions for the Downloading the Data)[#instructions-for-downloading-the-data], you could run the following instead:
 
 ```bash
 python src/full_ml_workflow.py

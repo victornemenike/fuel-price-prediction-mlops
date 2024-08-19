@@ -17,6 +17,3 @@ training_pipeline:
 
 predict:
 	python src/predict.py
-
-
-run_all: setup qualilty_checks mlflow training_pipeline predict

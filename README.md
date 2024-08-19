@@ -97,11 +97,6 @@ make training_pipeline
 make predict
 ```
 
-To run everything above in one shot:
-```bash
-make run_all
-```
-
 If you successfully followed the steps above, you should get a plot with the forecast below:
 
 ![Alt text](images/fuel_price_forecast_test.png)
@@ -397,16 +392,16 @@ git commit -m 'update README'
 
 - [x] Makefiles and make
 
-As a optional step, a `Makefile` has been provided in the parent directory of this project. To use the `Makefile` you need to ensure you have [`make`](https://www.gnu.org/software/make/) installed. In the `Makefile`, there are six programs you can run, namely: `setup`, `qualilty_checks`,  `mlflow`, `training_pipeline`, `predict` and `run_all`. To run any of these programs, simply do:
+As a optional step, a `Makefile` has been provided in the parent directory of this project. To use the `Makefile` you need to ensure you have [`make`](https://www.gnu.org/software/make/) installed. In the `Makefile`, there are six programs you can run, namely: `setup`, `qualilty_checks`,  `mlflow`, `training_pipeline`, and `predict`. To run any of these programs, simply do:
 
 ```bash
 make <program>
 ```
 
-For example, to `run_all`, simply run:
+For example, to `qualilty_checks`, simply run:
 
 ```bash
-make run_all
+make qualilty_checks
 ```
 
 

@@ -24,7 +24,7 @@ In order to fully reproduce the results in this project, you would need to downl
 To do this, do the following:
 
 - Download the contents of the [2024 fuel prices data](https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data?path=/prices/2024) and save it in the `data` folder as a sub-folder `2024_prices`.
-- Download the contents of the [2024 station data]((https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data?path=/prices/2024)) and save it in the `data` folder as a sub-folder `2024_stations`.
+- Download the contents of the [2024 station data](https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data?path=/stations/2024) and save it in the `data` folder as a sub-folder `2024_stations`.
 
 Next, create the file `2024_globus_gas_prices.parquet` from the folders `2024_prices` and `2024_stations`, by running:
 

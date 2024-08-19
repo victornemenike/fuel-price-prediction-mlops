@@ -110,23 +110,7 @@ For more details on deploying the model as a web service or model monitoring see
 Amazon Web Services was used as the cloud provider for the MLflow tracking.
 To configure you own AWS instance, follow the instructions in this [link](https://github.com/DataTalksClub/mlops-zoomcamp/blob/main/02-experiment-tracking/mlflow_on_aws.md).
 
-Using the EC2 Console on AWS, the following commands to install the dependencies, configure the environment and launch the server:
-
-- `sudo yum update`
-
-- `pip3 install mlflow boto3 psycopg2-binary`
-
-- `aws configure` and then insert your AWS credentials
-
-- `mlflow server -h 0.0.0.0 -p 5000 --backend-store-uri postgresql://DB_USER:DB_PASSWORD@DB_ENDPOINT:5432/DB_NAME --default-artifact-root s3://S3_BUCKET_NAME`
-
-```bash
-aws configure
-```
-
-```bash
-aws s3 ls
-```
+The model training workflow as described in [Workflow Orchestration](#2-workflow-orchestration) can be deployed in cloud mode or local model by setting the `mlflow_mode = 'local'` or `mlflow_mode = 'local'`, respectively.
 
 ## Implementation Details
 
@@ -177,6 +161,8 @@ If you followed the (Instructions for the Downloading the Data)[#instructions-fo
 ```bash
 python src/full_ml_workflow.py
 ```
+
+**Note**: By default, the training workflow is set to run MLflow locally. However, it can also be set to run on Amazon Web Services by setting `mlflow_mode = 'aws'` in  either the files  `src/ml_workflow.py` or `src/full_ml_workflow.py`, and adapting accordingly to your cloud set-up.
 
 **Prefect Workflow Deployment**
 

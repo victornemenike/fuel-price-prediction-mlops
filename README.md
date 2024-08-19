@@ -404,6 +404,10 @@ For example, to `qualilty_checks`, simply run:
 make qualilty_checks
 ```
 
+- [x] **CI/CD pipeline**
+Following best practices, basic CI/CI pipelines are first built in the `feature` branch and then a pull request is used to merge it into the `develop` branch.
+
+To see the CI/CD pipelinces, navigate to the `develop` branch and check the `.github/workflow` folder for the files: `ci-pipeline.yml` and `cd-deploy.yml` for CI and CD, respectively.
 
 ### **6. Reproducibility**:
 - Detailed instructions on how to set up the environment and run the code are explained in the [Quick Start](#quick-start) and [Implementation Details](#implementation-details) sections above.

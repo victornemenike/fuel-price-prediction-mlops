@@ -199,7 +199,7 @@ Finally, you can view your deployment in the Prefect Cloud UI by logging in.
 
 ### **3. Model Deployment**:
 
-The web service deployment code is containerized and could be deployed to the cloud. Here, we use python:3.11-slim in the Dockerfile (see [Docker Hub](https://hub.docker.com/_/python/)). The final Dockerfile can be found in `web-service\Dockerfile`.
+The web service deployment code is containerized and could be deployed to the cloud. Here, we use python:3.11-slim in the Dockerfile (see [Docker Hub](https://hub.docker.com/_/python/)). The final Dockerfile can be found in project root directory as `Dockerfile`.
 
 **Note**: the `ENTRYPOINT` in the `Dockerfile` can be defined with either `waitress-serve` OR `gunicorn`
 
@@ -209,10 +209,10 @@ OR
 
 `ENTRYPOINT [ "gunicorn", "--bind=0.0.0.0:9696", "predict:app" ]`
 
-Given that the Dockerfile in located in the `web-service` folder and the model is stored in the `models` folder, **we need to build the Docker container from the parent directory of the project** `fuel-price-prediction-mlops` by executing the following command in the terminal:
+The `Dockerfile` can be executed by running the following command in the terminal:
 
 ```bash
-docker build -t fuel-price-prediction-service:v1 -f web-service/Dockerfile .
+docker build -t fuel-price-prediction-service:v1 -f Dockerfile .
 ```
 
 To run the Docker container, we run:
@@ -221,16 +221,10 @@ To run the Docker container, we run:
 docker run -it --rm -p 9696:9696 fuel-price-prediction-service:v1
 ```
 
-Next, open a new tab within the same terminal, cd to the `web-service` directory like so:
+Next,  run the following to test that the web service is indeed running in a Docker container:
 
 ```bash
-cd web-service
-```
-
- and run the following to test that the web service is indeed running in a Docker container:
-
-```bash
-python test_flask_app.py
+python web-service/test_flask_app.py
 ```
 
 ### **4. Model Monitoring**:

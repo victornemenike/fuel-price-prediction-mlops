@@ -79,6 +79,10 @@ To run everything above in one shot:
 make run_all
 ```
 
+If you followed the steps above, you should get a plot with a forecast below:
+
+![Alt text](images/fuel_price_forecast_test.png)
+
 For more details on deploying the model as a web service or model monitoring see the [Implementation Details](#implementation-details) section below.
 
 ## Cloud

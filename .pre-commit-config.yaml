@@ -8,19 +8,19 @@ repos:
     - id: end-of-file-fixer
     - id: check-yaml
     - id: check-added-large-files
-      exclude: 'requirements.txt|mlruns/|mlflow.db'
+      exclude: 'requirements.txt|mlflow.\db|mlruns/'
 - repo: https://github.com/pycqa/isort
   rev: 5.13.2
   hooks:
     - id: isort
       name: isort (python)
-      exclude: 'src/ml_workflow.py|monitoring/evidently_metrics_calculation.py|mlruns/|mlflow.db'
+      exclude: 'src/ml_workflow.py|monitoring/evidently_metrics_calculation.py|mlflow.\db|mlruns/'
 - repo: https://github.com/psf/black
   rev: 24.8.0
   hooks:
     - id: black
       language_version: python3.11
-      exclude: 'src/ml_workflow.py|monitoring/evidently_metrics_calculation.py|mlrun/|mlflow.db'
+      exclude: 'src/ml_workflow.py|monitoring/evidently_metrics_calculation.py|mlflow.\db|mlruns/'
 - repo: local
   hooks:
     - id: pylint
@@ -34,4 +34,4 @@ repos:
         "--recursive=y",
         "--rcfile=pyproject.toml" # Ensure pylint uses pyproject.toml
       ]
-      exclude: 'mlruns/|mlflow.db'
+      exclude: 'mlflow.\db|mlruns/'

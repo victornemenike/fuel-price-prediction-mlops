@@ -5,7 +5,7 @@ setup:
 qualilty_checks:
 	isort .
 	black .
-	pylint --recursive=y.
+	pylint monitoring src tests web-service
 
 mlflow:
 	mlflow server --backend-store-uri sqlite:///mlflow.db

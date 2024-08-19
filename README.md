@@ -57,6 +57,9 @@ Ensure you have a Python environment set up. You can create a virtual environmen
 
 ```bash
 python3.11 -m venv venv
+```
+
+```bash
 source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 ```
 

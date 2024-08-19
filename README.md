@@ -31,7 +31,7 @@ Next, create the file `2024_globus_gas_prices.parquet` from the folders `2024_pr
 ```bash
 python src/data_collection.py
 ```
-Alternatively, you could also clone the whole [Tankerkoenig](https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data) into an AWS S3 bucket.
+Alternatively, you could also clone the whole [tankerkoenig-data](https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data) into an AWS S3 bucket.
 
 ## Additional Files
 - **requirements.txt**

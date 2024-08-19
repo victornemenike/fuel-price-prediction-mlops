@@ -25,3 +25,4 @@ aws_mlflow_script
 .gitattributes
 mlflow.db
 mlruns/
+images/mlops_flowchart.pptx

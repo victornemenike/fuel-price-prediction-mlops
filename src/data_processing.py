@@ -59,19 +59,19 @@ def prepare_X_y(name, dataframe, sequence_length):
 
 
 if __name__ == '__main__':
-    file_name = '../data/2024_globus_gas_prices.parquet'
+    file_name = 'data/2024_globus_gas_prices.parquet'
     col_name = 'e5'
     sampling_freq = '1h'
     data = prepare_data(file_name, col_name, sampling_freq)
 
     train_data = data[:'2024-05-31']
-    train_data_path = '../data/2024_train_data.parquet'
+    train_data_path = 'data/2024_train_data.parquet'
     save_data(train_data, train_data_path)
 
     val_data = data['2024-06-01':'2024-07-13']
-    val_data_path = '../data/2024_val_data.parquet'
+    val_data_path = 'data/2024_val_data.parquet'
     save_data(val_data, val_data_path)
 
     test_data = data['2024-07-14':]
-    test_data_path = '../data/2024_test_data.parquet'
+    test_data_path = 'data/2024_test_data.parquet'
     save_data(test_data, test_data_path)

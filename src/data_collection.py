@@ -38,9 +38,9 @@ def save_data(dataframe, file_path):
 
 
 if __name__ == '__main__':
-    root_directory = '../data/2024_prices/2024'
+    root_directory = 'data/2024_prices/2024'
     station_uuid = '28d2efc8-a5e6-47d6-9d37-230fbcefcf70'
-    file_name = '../data/2024_globus_gas_prices.parquet'
+    file_name = 'data/2024_globus_gas_prices.parquet'
 
     df = load_data(root_directory, station_uuid)
     save_data(df, file_name)

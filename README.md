@@ -79,7 +79,7 @@ To run everything above in one shot:
 make run_all
 ```
 
-If you followed the steps above, you should get a plot with a forecast below:
+If you successfully followed the steps above, you should get a plot with the forecast below:
 
 ![Alt text](images/fuel_price_forecast_test.png)
 

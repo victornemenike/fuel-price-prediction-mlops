@@ -130,8 +130,7 @@ if __name__ == '__main__':
     val_data_path = '../data/2024_val_data.parquet'
     val_data = pd.read_parquet(val_data_path)
 
-    # mlflow.set_tracking_uri("sqlite:///mlflow.db")
-    mlflow.set_tracking_uri("http://127.0.0.1:5000")
+    mlflow.set_tracking_uri("sqlite:///mlflow.db")
     mlflow.set_experiment("fuel-price-experiment")
 
     # Load model as a PyFuncModel

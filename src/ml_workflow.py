@@ -6,8 +6,9 @@ import pandas as pd
 from mlflow.tracking import MlflowClient
 from prefect import flow, task
 
-from data_collection import load_data
+#from data_collection import load_data
 from data_processing import (
+    read_dataframe,
     convert_to_timeseries,
     prepare_X_y,
     resample_timeseries
@@ -18,12 +19,10 @@ from train import create_dataloader, save_model, train_model
 
 
 @task
-def collect_data(root_directory: str):
-    station_uuid = '28d2efc8-a5e6-47d6-9d37-230fbcefcf70'
-    df = load_data(root_directory, station_uuid)
+def load_data(file_path:str):
+    df = read_dataframe(file_path)
     print(f'The dataset has {len(df)} samples.')
     return df
-
 
 @task
 def preprocess_data(df: pd.DataFrame):
@@ -86,8 +85,8 @@ def train_torch_model(
 
 @task
 def save_model_locally(model):
-    model_dir = ("models",)
-    model_format = ("pickle",)
+    model_dir = "models"
+    model_format = "pickle"
     save_model(model, model_dir, model_format)
 
 
@@ -106,9 +105,9 @@ def mlflow_registry(client, run, model_name: str = "fuel-price-predictor"):
 
 
 @flow(log_prints=True)
-def ml_pipeline(root_directory: str, MLFLOW_mode: str = 'local'):
+def ml_pipeline(data_path: str, MLFLOW_mode: str = 'local'):
 
-    df = collect_data(root_directory)
+    df = load_data(data_path)
 
     df_processed = preprocess_data(df)
 
@@ -145,6 +144,6 @@ def ml_pipeline(root_directory: str, MLFLOW_mode: str = 'local'):
 
 
 if __name__ == "__main__":
-    data_directory = 'data/2024_prices'
+    data_directory = 'data/2024_globus_gas_prices.parquet'
     mlflow_mode = 'local'
     ml_pipeline(data_directory, mlflow_mode)

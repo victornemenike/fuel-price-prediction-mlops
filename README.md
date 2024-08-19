@@ -39,25 +39,28 @@ Alternatively, you could clone the entire [Tankerkoenig](https://dev.azure.com/t
 ## **Quick Start**
 To get started with this project, do the following in the terminal:
 
-1. **Clone the Repository:**
+1. **Clone the repository:**
 ```bash
 git clone https://github.com/victornemenike/fuel-price-prediction-mlops.git
 ```
 
-2. **Navigate to the Project Directory:**
+2. **Navigate to the project directory:**
 ```bash
 cd fuel-price-prediction-mlops/
 ```
 
 To prepare the project and install all dependencies, run the following using [`make`](https://www.gnu.org/software/make/):
 
-3. **Set up the Environment:**
+3. **Set up the environment:**
+
 Ensure you have a Python environment set up. You can create a virtual environment using:
 
 ```bash
 python3.11 -m venv venv
 source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 ```
+
+Next, install required packages:
 
 ```bash
 make setup
@@ -75,7 +78,7 @@ make qualilty_checks
 make mlflow
 ```
 
-5. **Run Training Pipeline:**
+5. **Run training pipeline:**
 
 ```bash
 make training_pipeline

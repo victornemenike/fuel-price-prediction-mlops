@@ -190,11 +190,11 @@ if __name__ == '__main__':
     mlflow.set_experiment(MLFLOW_EXPERIMENT_NAME)
     client = MlflowClient(tracking_uri=MLFLOW_TRACKING_URI)
 
-    train_data_path = '../data/2024_train_data.parquet'
+    train_data_path = 'data/2024_train_data.parquet'
     train_data = pd.read_parquet(train_data_path)
     X_train, y_train = prepare_X_y('training', train_data, sequence_length=48)
 
-    val_data_path = '../data/2024_val_data.parquet'
+    val_data_path = 'data/2024_val_data.parquet'
     val_data = pd.read_parquet(val_data_path)
     X_val, y_val = prepare_X_y('validation', val_data, sequence_length=24)
 

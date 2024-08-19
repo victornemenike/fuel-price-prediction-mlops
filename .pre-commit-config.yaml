@@ -6,9 +6,9 @@ repos:
   hooks:
     - id: trailing-whitespace
     - id: end-of-file-fixer
+      exclude: 'requirements\.txt'
     - id: check-yaml
     - id: check-added-large-files
-      exclude: 'requirements.txt|mlflow.\db|mlruns/'
 - repo: https://github.com/pycqa/isort
   rev: 5.13.2
   hooks:

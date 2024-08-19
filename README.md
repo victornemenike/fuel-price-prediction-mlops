@@ -221,7 +221,7 @@ To run the Docker container, we run:
 docker run -it --rm -p 9696:9696 fuel-price-prediction-service:v1
 ```
 
-Next,  run the following to test that the web service is indeed running in a Docker container:
+Next, open a new tab within the same terminal, and run the following to test that the web service is indeed running in a Docker container:
 
 ```bash
 python web-service/test_flask_app.py

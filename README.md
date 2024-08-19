@@ -60,31 +60,31 @@ python3.11 -m venv venv
 source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 ```
 
-Next, install required packages:
+4. **Install required packages**
 
 ```bash
 make setup
 ```
 
-4. **Run quality checks:**
+5. **Run quality checks:**
 
 ```bash
 make qualilty_checks
 ```
 
-5. **Start-up MLflow:**
+6. **Start-up MLflow:**
 
 ```bash
 make mlflow
 ```
 
-5. **Run training pipeline:**
+7. **Run training pipeline:**
 
 ```bash
 make training_pipeline
 ```
 
-6. **Make an inference/time series forecast**
+8. **Make an inference/time series forecast**
 ```bash
 make predict
 ```

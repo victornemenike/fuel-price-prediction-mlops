@@ -48,6 +48,10 @@ def plot_forecast(data, val_data, forecast_params):
     plt.legend()
     plt.title('Petrol Price Forecasting')
     plt.grid(True)
+
+    plt.tight_layout()
+    plt.savefig('images/fuel_price_forecast_test.png', dpi=300, bbox_inches='tight')
+
     plt.show()
 
 

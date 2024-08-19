@@ -18,17 +18,20 @@ This repository has four folders: *src*, *notebooks*, *models*, and *data*.
 
 ## Instructions for Downloading the Data
 
-In order to fully reproduced the results in this project, you would need to download the 2024 German filling station fuel `prices` and `stations` data from [Tankerkoenig](https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data).
+In order to fully reproduce the results in this project, you would need to download the 2024 German filling station fuel `prices` and `stations` data from [Tankerkoenig](https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data) into your local computer (alternatively, you could clone the entire [Tankerkoenig](https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data) repository into an AWS S3 bucket.
+).
 
 To do this, do the following:
 
-- Download the 2024 fuel prices and save it in the `data` folder as a folder `2024_prices`: https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data?path=/prices/2024
-- Download the 2024 station prices and store it in the `data` folder as a folder `2024_stations`: https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data?path=/stations
+- Download the contents of the [2024 fuel prices data](https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data?path=/prices/2024) and save it in the `data` folder as a sub-folder `2024_prices`.
+- Download the contents of the [2024 station data]((https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data?path=/prices/2024)) and save it in the `data` folder as a sub-folder `2024_stations`.
 
-As already mentioned, these are large files and have not been saved in this Git repo. Nonetheless, downloading these data will enable you to reproduce all the results in this work especially the `Prefect workflow` ([see](#2-workflow-orchestration)).
+Next, create the file `2024_globus_gas_prices.parquet` from the folders `2024_prices` and `2024_stations`, by running:
 
-Alternatively, you could clone the entire [Tankerkoenig](https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data) repository into an AWS S3 bucket.
-
+```bash
+python src/data_collection.py
+```
+Alternatively, you could also clone the whole [Tankerkoenig](https://dev.azure.com/tankerkoenig/_git/tankerkoenig-data) into an AWS S3 bucket.
 
 ## Additional Files
 - **requirements.txt**
@@ -76,6 +79,8 @@ make qualilty_checks
 ```
 
 6. **Start-up MLflow:**
+
+Open a new tab in the terminal (ensure this new tab is in project's root directory), activate the virtual environment `venv` and then run:
 
 ```bash
 make mlflow
@@ -165,9 +170,22 @@ prefect cloud login
 and run:
 
 ```bash
-python src/workflow.py
+python src/ml_workflow.py
 ```
-![Alt text](images/prefect_workflow.png)
+
+OR
+
+```bash
+python src/ml_workflow.py
+```
+
+![Alt text](images/prefect_workflow_2.png)
+
+If you followed the [Instructions for the Downloading the Data], you could run the following instead:
+
+```bash
+python src/full_ml_workflow.py
+```
 
 **Prefect Workflow Deployment**
 

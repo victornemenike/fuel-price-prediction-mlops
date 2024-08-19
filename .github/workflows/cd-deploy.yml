@@ -40,20 +40,6 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
-    - name: List Docker Cache Directory
-      run: ls -la ~/.docker /tmp/.buildx-cache
-
-    - name: Cache Docker layers
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.docker
-          /tmp/.buildx-cache
-        key: ${{ runner.os }}-docker-${{ github.sha }}
-        restore-keys: |
-          Linux-docker-${{ runner.os }}-
-          Linux-docker-
-
     - name: Build Docker image
       run: |
         docker build -t my-app:latest .

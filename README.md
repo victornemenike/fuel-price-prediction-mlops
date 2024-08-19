@@ -168,6 +168,8 @@ and run:
 python src/ml_workflow.py
 ```
 
+This training pipeline will train an [LSTM model](https://blog.xpgreat.com/file/lstm.pdf) (a deep learning architecture) in [PyTorch](https://pytorch.org/) and save the trained model both as a local pickle file and as a model artifact in MLflow.
+
 ![Alt text](images/prefect_workflow_2.png)
 
 If you followed the (Instructions for the Downloading the Data)[#instructions-for-downloading-the-data], you could run the following instead:

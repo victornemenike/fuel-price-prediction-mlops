@@ -2,6 +2,7 @@ import mlflow
 import numpy as np
 import pandas as pd
 import torch
+from mlflow.tracking import MlflowClient
 
 from data_processing import prepare_X_y
 from plotting import plot_forecast
@@ -133,8 +134,24 @@ if __name__ == '__main__':
     mlflow.set_tracking_uri("sqlite:///mlflow.db")
     mlflow.set_experiment("fuel-price-experiment")
 
+    # latest succesful run id
+    client = MlflowClient()
+    experiment_id = '1'
+    runs = client.search_runs(
+        experiment_ids=[experiment_id],
+        filter_string="attributes.status = 'FINISHED'",
+        order_by=["start_time DESC"],
+        max_results=1,
+    )
+
+    if runs:
+        latest_run_id = runs[0].info.run_id
+        print(f"Latest successful run_id: {latest_run_id}")
+    else:
+        print("No successful runs found in the specified experiment.")
+
     # Load model as a PyFuncModel
-    run_id = '2f41d5e9dc5f4e15a707755bef4386b5'
+    run_id = latest_run_id
     logged_model = f'runs:/{run_id}/LSTM-model'
     loaded_model = mlflow.pyfunc.load_model(logged_model)
     dataName = 'validation'

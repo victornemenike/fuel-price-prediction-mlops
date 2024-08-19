@@ -13,7 +13,7 @@ def plot_forecast(data, val_data, forecast_params):
     sequence_to_plot = forecast_params['sequence_to_plot']
 
     # set the size of the plot
-    _, ax = plt.subplots(figsize=(12, 4))
+    _, ax = plt.subplots(figsize=(10, 5))
 
     # Test data
     ax.plot(val_data.index[-100:-24], val_data[-100:-24], label="val_data", color="b")

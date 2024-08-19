@@ -5,6 +5,7 @@ repos:
   rev: v4.6.0
   hooks:
     - id: trailing-whitespace
+      exclude: 'requirements\.txt'
     - id: end-of-file-fixer
       exclude: 'requirements\.txt'
     - id: check-yaml
@@ -14,13 +15,13 @@ repos:
   hooks:
     - id: isort
       name: isort (python)
-      exclude: 'src/ml_workflow.py|monitoring/evidently_metrics_calculation.py|mlflow.\db|mlruns/'
+      exclude: 'src/ml_workflow.py|monitoring/evidently_metrics_calculation.py|requirements\.txt'
 - repo: https://github.com/psf/black
   rev: 24.8.0
   hooks:
     - id: black
       language_version: python3.11
-      exclude: 'src/ml_workflow.py|monitoring/evidently_metrics_calculation.py|mlflow.\db|mlruns/'
+      exclude: 'src/ml_workflow.py|monitoring/evidently_metrics_calculation.py|requirements\.txt'
 - repo: local
   hooks:
     - id: pylint

@@ -110,7 +110,7 @@ For more details on deploying the model as a web service or model monitoring see
 Amazon Web Services was used as the cloud provider for the MLflow tracking.
 To configure you own AWS instance, follow the instructions in this [link](https://github.com/DataTalksClub/mlops-zoomcamp/blob/main/02-experiment-tracking/mlflow_on_aws.md).
 
-The model training workflow as described in [Workflow Orchestration](#2-workflow-orchestration) can be deployed in cloud mode or local model by setting the `mlflow_mode = 'local'` or `mlflow_mode = 'local'`, respectively.
+The model training workflow as described in [Workflow Orchestration](#2-workflow-orchestration) can be deployed in cloud mode or local model by setting the `mlflow_mode = 'aws'` or `mlflow_mode = 'local'`, respectively.
 
 ## Implementation Details
 

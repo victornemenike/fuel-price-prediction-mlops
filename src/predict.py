@@ -98,7 +98,7 @@ def forecast(model, data_name, data, num_forecast_steps):
         # Update the historical_data sequence
         # remove the oldest value and add the predicted value
         historical_data = np.roll(historical_data, shift=-1)
-        historical_data[-1] = predicted_value.values[0]
+        historical_data[-1] = predicted_value.values[0, 0]
 
     # Generate futute dates
     last_timestamp = data.index[-1]

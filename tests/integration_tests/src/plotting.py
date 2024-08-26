@@ -38,7 +38,7 @@ def plot_forecast(data, val_data, forecast_params):
 
     ax.plot(
         test_timestamps,
-        data[future_timestamps[0] : future_timestamps[-1]],
+        data[test_timestamps],
         label="test data (snippet)",
         color="black",
     )
@@ -78,9 +78,11 @@ def plot_forecast_web_service(
 
 
 def predict_actual_dist(df, future_timestamps, forecasted_cases):
+    tmp = df.index
+    test_timestamps = tmp[(tmp >= future_timestamps[0]) & (tmp <= future_timestamps[-1])]
     warnings.filterwarnings("ignore", category=UserWarning)
     sns.distplot(forecasted_cases, label="prediction")
-    sns.distplot(df[future_timestamps[0] : future_timestamps[-1]], label="actual")
+    sns.distplot(df[test_timestamps], label="actual")
     plt.legend()
     plt.show()
 

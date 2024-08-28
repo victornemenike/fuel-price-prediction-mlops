@@ -26,3 +26,4 @@ aws_mlflow_script
 mlflow.db
 mlruns/
 images/mlops_flowchart.pptx
+certificate.py
